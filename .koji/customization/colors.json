@@ -1,7 +1,10 @@
 {
   "colors": {
     "backgroundColor": "#2c2f38",
-    "boxColor": "#1cd61c"
+    "boxColor": "#1cd61c",
+    "fogColor": "#3d2c20",
+    "buttonTextColor": "#ac9b9b",
+    "buttonColor": "#a13636"
   },
   "@@editor": [
     {
@@ -16,8 +19,18 @@
           "type": "color"
         },
         {
-          "key": "boxColor",
-          "name": "Box color",
+          "key": "fogColor",
+          "name": "Fog color",
+          "type": "color"
+        },
+        {
+          "key": "buttonTextColor",
+          "name": "Button Text color",
+          "type": "color"
+        },
+        {
+          "key": "buttonColor",
+          "name": "Button color",
           "type": "color"
         }
       ]

@@ -1,0 +1,49 @@
+{
+  "images": {
+    "ball": "https://i.imgur.com/cSzvKhQ.png",
+    "platform": "https://i.imgur.com/cJSf9Ba.png",
+    "box": "https://i.imgur.com/lm3a5Tp.jpg",
+    "collectible": "https://i.imgur.com/WboxpCb.jpg",
+    "life": "https://i.imgur.com/nZQufaG.png"
+  },
+  "@@editor": [
+    {
+      "key": "images",
+      "name": "Images",
+      "icon": "💅",
+      "source": "images.json",
+      "fields": [
+        {
+          "key": "life",
+          "name": "Life Icon",
+          "type": "image",
+          "description": "Icon representing one player life"
+        },
+        {
+          "key": "ball",
+          "name": "Ball",
+          "type": "image",
+          "description": "Ball texture"
+        },
+        {
+          "key": "platform",
+          "name": "Platform",
+          "type": "image",
+          "description": "Platform texture"
+        },
+        {
+          "key": "box",
+          "name": "Box",
+          "type": "image",
+          "description": "Box texture"
+        },
+        {
+          "key": "collectible",
+          "name": "Collectible",
+          "type": "image",
+          "description": "Collectible texture"
+        }
+      ]
+    }
+  ]
+}

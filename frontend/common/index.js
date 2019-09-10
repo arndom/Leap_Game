@@ -17,7 +17,16 @@ import './index.css';
 Koji.pageLoad();
 window.Koji = Koji;
 
+//Here go all your scripts
+//Recommended to have the index.js loaded last
+require('script-loader!app/helpers/asset-loader.min.js');
+require('script-loader!app/helpers/three-ui.min.js');
+require('script-loader!app/button.js');
+require('script-loader!app/entities.js');
+require('script-loader!app/utilities.js');
 require('script-loader!app/index.js');
+
+
 
 if (module.hot) {
     module.hot.accept('script-loader!app/index.js', () => {
@@ -25,5 +34,6 @@ if (module.hot) {
         oldCanvas.parentNode.removeChild(oldCanvas);
 
         require('script-loader!app/index.js');
+       
     });
 }
