@@ -29,6 +29,8 @@ let sndHit = new THREE.Audio(listener);
 //UI
 let lifeIcons = [];
 let playButton;
+let soundButton;
+let imgSoundOff, imgSoundOn;
 //let leaderboardButton;
 let title;
 let instructions = [];
@@ -58,6 +60,7 @@ let highscore = 0;
 let platformCount = 0;
 let touching = false;
 let usingKeyboard = false;
+let soundEnabled = true;
 
 //Game settings
 let scoreGain = parseInt(Koji.config.strings.scoreGain);
@@ -70,7 +73,9 @@ clock = new THREE.Clock();
 initiateScene();
 
 function preload() {
-    AssetLoader.add.image(Koji.config.images.life);.33
+    AssetLoader.add.image(Koji.config.images.life);
+    AssetLoader.add.image(Koji.config.images.soundOff);
+    AssetLoader.add.image(Koji.config.images.soundOn);
     
 
     // Set a progress listener, can be used to create progress bars
@@ -186,10 +191,15 @@ function loadUI() {
     }
 
     playButton = new Button(Koji.config.strings.playButtonText, 0);
+    soundButton = new SoundButton();
     //leaderboardButton = new Button("LEADERBOARD", 1);
 
     playButton.rectangle.onClick(function () {
         init();
+    });
+
+    soundButton.rectangle.onClick(function(){
+        toggleSound();
     });
 
     //leaderboardButton.rectangle.onClick(function () {
@@ -424,6 +434,7 @@ function endGame() {
     initiateScene();
 
     playButton.rectangle.visible = true;
+    
     //leaderboardButton.rectangle.visible = false;
     title.visible = true;
     for (let i = 0; i < instructions.length; i++) {
@@ -446,6 +457,7 @@ function render() {
         //Draw Main Menu
         if (inGame) {
             playButton.update();
+            soundButton.update();
             //leaderboardButton.update();
         }
 

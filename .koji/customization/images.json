@@ -4,7 +4,9 @@
     "platform": "https://i.imgur.com/pXutURF.png",
     "box": "https://i.imgur.com/POh8Fas.png",
     "collectible": "https://i.imgur.com/rn9fz6Z.png",
-    "life": "https://i.imgur.com/nZQufaG.png"
+    "life": "https://i.imgur.com/nZQufaG.png",
+    "soundOff": "https://i.imgur.com/YpvzL1E.png",
+    "soundOn": "https://i.imgur.com/N2Wm05l.png"
   },
   "@@editor": [
     {
@@ -13,6 +15,18 @@
       "icon": "🖼️",
       "source": "images.json",
       "fields": [
+        {
+          "key": "soundOff",
+          "name": "Sound Off",
+          "type": "image",
+          "description": "Ideal size: 96x96"
+        },
+        {
+          "key": "soundOn",
+          "name": "Sound On",
+          "type": "image",
+          "description": "Ideal size: 96x96"
+        },
         {
           "key": "life",
           "name": "Life Icon",

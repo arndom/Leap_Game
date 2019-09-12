@@ -59,6 +59,8 @@ function checkHighscore() {
 //Make a copy of needed sound and play it immediately
 //Not sure if it causes leaks
 function playSound(sound) {
+    if(!soundEnabled) return;
+
     if (sound) {
         let snd = new THREE.Audio(listener);
         snd.buffer = sound.buffer;
@@ -66,4 +68,17 @@ function playSound(sound) {
         snd.play();
         
     }
+}
+
+function toggleSound(){
+    soundEnabled = !soundEnabled;
+
+    soundButton.updateImage();
+
+    if(!soundEnabled){
+        listener.setMasterVolume(0);
+    }else{
+        listener.setMasterVolume(1);
+    }
+    
 }
