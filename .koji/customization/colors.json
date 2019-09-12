@@ -1,16 +1,19 @@
 {
   "colors": {
-    "backgroundColor": "#2c2f38",
+    "backgroundColor": "#373F51",
     "boxColor": "#1cd61c",
-    "fogColor": "#3d2c20",
-    "buttonTextColor": "#ac9b9b",
-    "buttonColor": "#a13636"
+    "fogColor": "#373F51",
+    "buttonTextColor": "#373F51",
+    "buttonColor": "#ECEBF3",
+    "titleColor": "#ECEBF3",
+    "instructionsColor": "#ECEBF3",
+    "scoreColor": "#ECEBF3"
   },
   "@@editor": [
     {
       "key": "colors",
       "name": "Colors",
-      "icon": "💅",
+      "icon": "🎨",
       "source": "colors.json",
       "fields": [
         {
@@ -24,6 +27,16 @@
           "type": "color"
         },
         {
+          "key": "titleColor",
+          "name": "Title color",
+          "type": "color"
+        },
+        {
+          "key": "instructionsColor",
+          "name": "Instructions color",
+          "type": "color"
+        },
+        {
           "key": "buttonTextColor",
           "name": "Button Text color",
           "type": "color"
@@ -31,6 +44,11 @@
         {
           "key": "buttonColor",
           "name": "Button color",
+          "type": "color"
+        },
+        {
+          "key": "scoreColor",
+          "name": "Score color",
           "type": "color"
         }
       ]

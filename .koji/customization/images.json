@@ -1,47 +1,47 @@
 {
   "images": {
-    "ball": "https://i.imgur.com/cSzvKhQ.png",
-    "platform": "https://i.imgur.com/cJSf9Ba.png",
-    "box": "https://i.imgur.com/lm3a5Tp.jpg",
-    "collectible": "https://i.imgur.com/WboxpCb.jpg",
+    "ball": "https://i.imgur.com/fe22ru1.png",
+    "platform": "https://i.imgur.com/pXutURF.png",
+    "box": "https://i.imgur.com/POh8Fas.png",
+    "collectible": "https://i.imgur.com/rn9fz6Z.png",
     "life": "https://i.imgur.com/nZQufaG.png"
   },
   "@@editor": [
     {
       "key": "images",
       "name": "Images",
-      "icon": "💅",
+      "icon": "🖼️",
       "source": "images.json",
       "fields": [
         {
           "key": "life",
           "name": "Life Icon",
           "type": "image",
-          "description": "Icon representing one player life"
+          "description": "Icon representing one player life. Ideal size: 96x96"
         },
         {
           "key": "ball",
           "name": "Ball",
           "type": "image",
-          "description": "Ball texture"
+          "description": "Ball texture Ideal size: 128x128 or 256x256"
         },
         {
           "key": "platform",
           "name": "Platform",
           "type": "image",
-          "description": "Platform texture"
+          "description": "Platform texture. Ideal size: 128x128 or 256x256"
         },
         {
           "key": "box",
           "name": "Box",
           "type": "image",
-          "description": "Box texture"
+          "description": "Box texture Ideal size: 128x128 or 256x256"
         },
         {
           "key": "collectible",
           "name": "Collectible",
           "type": "image",
-          "description": "Collectible texture"
+          "description": "Collectible texture Ideal size: 128x128 or 256x256"
         }
       ]
     }

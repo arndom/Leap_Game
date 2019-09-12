@@ -1,10 +1,13 @@
 // An example three.js project, a spinning cube
 
+
 // create our basic constructs
 let scene; //initialised later
 let camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 20000);
 let renderer = new THREE.WebGLRenderer();
 let ui;
+let listener = new THREE.AudioListener();
+camera.add(listener);
 
 //Game Objects
 let ball;
@@ -12,59 +15,93 @@ let platforms = [];
 let boxes = [];
 let collectibles = [];
 
-
 //Textures
 let textureBall;
 let texturePlatform;
 let textureBox;
 let textureCollectible;
 
+//Sounds
+let sndMusic = new THREE.Audio(listener);
+let sndCollect = new THREE.Audio(listener);
+let sndHit = new THREE.Audio(listener);
+
 //UI
 let lifeIcons = [];
 let playButton;
+//let leaderboardButton;
 let title;
 let instructions = [];
 let instructionsText = [];
-
+let scoreText;
+let highscoreText;
 
 //Global Variables
 let mouseX = 0;
 let mouseY = 0;
 let gameOver = true;
-let globalSpeed = 50;
+let globalSpeedIncreasePeriod = 10;
+let globalSpeedIncreaseTimer = globalSpeedIncreasePeriod;
+let globalSpeedMin = 30;
+let globalSpeedMax = 75;
+let globalSpeed = globalSpeedMin;
+let globalSpeedIncrease = 5;
 let ballSize = 128;
 let leftBound = -ballSize * 7.5;
 let rightBound = ballSize * 7.5;
-let startingLives = 3;
+let font = Koji.config.strings.font;
+let score = 0;
+let requestID; //Should be used later for cancelling animation frames
+let renderUI = true;
+let inGame = true;
+let highscore = 0;
+let platformCount = 0;
+let touching = false;
+let usingKeyboard = false;
+
+//Game settings
+let scoreGain = parseInt(Koji.config.strings.scoreGain);
+let startingLives = parseInt(Koji.config.strings.lives);
 let lives = startingLives;
-let font = "Russo One";
-
-initiateScene();
-
 
 //Time stuff
 clock = new THREE.Clock();
 
-
+initiateScene();
 
 function preload() {
-    AssetLoader.add.image(Koji.config.images.life);
+    AssetLoader.add.image(Koji.config.images.life);.33
+    
 
     // Set a progress listener, can be used to create progress bars
     AssetLoader.progressListener = function (progress) {
         console.info('Progress: ' + (progress * 100) + '%');
     };
 
+    // load a sound and set it as the Audio object's buffer
+    var audioLoader = new THREE.AudioLoader();
+    audioLoader.load(Koji.config.sounds.backgroundMusic, function (buffer) {
+        sndMusic.setBuffer(buffer);
+        sndMusic.setLoop(true);
+        sndMusic.setVolume(0.25);
+        sndMusic.play();
+    });
+
+    audioLoader.load(Koji.config.sounds.collect, function (buffer) {
+        sndCollect.setBuffer(buffer);
+    });
+
+    audioLoader.load(Koji.config.sounds.hit, function (buffer) {
+        sndHit.setBuffer(buffer);
+    });
 
     // Load, and start game when done
     AssetLoader.load(function () { // This function is called when all assets are loaded
         // Initialize the game
         setup();
 
-        console.log("loaded")
     });
 }
-
 
 //Setup the game after loading
 function setup() {
@@ -73,14 +110,14 @@ function setup() {
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.domElement);
 
-
-    // Create a UI of 720 pixels high
-    // will scale up to match renderer.domElement's size
-    ui = new ThreeUI(renderer.domElement, 720);
+    document.body.style.fontFamily = font;
 
     camera.position.z = 1000;
     camera.position.y = 500;
 
+    if (window.localStorage.getItem("highscore")) {
+        highscore = window.localStorage.getItem("highscore");
+    }
 
     //Load textures
     textureBall = new THREE.TextureLoader().load(Koji.config.images.ball);
@@ -92,7 +129,50 @@ function setup() {
     texturePlatform.wrapT = THREE.RepeatWrapping;
     texturePlatform.repeat.set(4, 2);
 
+    loadUI();
+
+    document.addEventListener("keydown", handleInputDown, false);
+    document.addEventListener("keyup", handleInputUp, false);
+
+    document.onmousemove = function (e) {
+        mouseX = e.pageX;
+        mouseY = e.pageY;
+    }
+
+    document.addEventListener('touchstart', function (e) {
+        onMouseDown(e);
+    }, false);
+    document.addEventListener('touchend', function (e) {
+        onMouseUp(e);
+    }, false);
+
+
+    //Start rendering the game
+    render();
+
+    updateLives();
+
+}
+
+function onMouseDown(e) {
+    mouseX = e.changedTouches[0].pageX;
+    mouseY = e.changedTouches[0].pageY;
+
+    touching = true;
+    usingKeyboard = false;
+}
+
+function onMouseUp(e) {
+
+    touching = false;
+    usingKeyboard = false;
+}
+
+function loadUI() {
     //Load UI
+    // Create a UI of 720 pixels high
+    // will scale up to match renderer.domElement's size
+    ui = new ThreeUI(renderer.domElement, 720);
     for (let i = 0; i < startingLives; i++) {
         let size = 48;
         lifeIcons[i] = ui.createSprite(Koji.config.images.life);
@@ -105,15 +185,20 @@ function setup() {
         lifeIcons[i].height = size;
     }
 
-    playButton = new Button("PLAY NOW");
+    playButton = new Button(Koji.config.strings.playButtonText, 0);
+    //leaderboardButton = new Button("LEADERBOARD", 1);
 
     playButton.rectangle.onClick(function () {
         init();
     });
 
+    //leaderboardButton.rectangle.onClick(function () {
+    //openLeaderboard();
+    //})
+
     //Title
     let titleSize = 128;
-    title = ui.createText("AMAZING BALL 3D", titleSize, font, Koji.config.colors.buttonTextColor);
+    title = ui.createText(Koji.config.strings.title, titleSize, font, Koji.config.colors.titleColor);
     title.y = window.innerHeight * 0.05 + titleSize * 0.5;
 
     title.textAlign = 'center';
@@ -121,7 +206,7 @@ function setup() {
     title.anchor.x = ThreeUI.anchors.center;
     title.anchor.y = ThreeUI.anchors.top;
 
-    while (titleSize * title.text.length * 0.9 > window.innerWidth) {
+    while (titleSize * title.text.length * 0.8 > window.innerWidth) {
 
         titleSize *= 0.99;
         title.size = titleSize;
@@ -131,14 +216,15 @@ function setup() {
 
     //Instructions
     let instructionsSize;
-    instructionsText[0] = "Collect as many apples as you can";
-    instructionsText[1] = "Avoid boxes";
-    instructionsText[2] = "Controls: TOUCH or ARROW KEYS";
+    let instructionsColor = Koji.config.colors.instructionsColor;
+    instructionsText[0] = Koji.config.strings.instructions1;
+    instructionsText[1] = Koji.config.strings.instructions2;
+    instructionsText[2] = Koji.config.strings.instructions3;
 
     instructionsSize = 32;
     for (let i = 0; i < instructionsText.length; i++) {
 
-        instructions[i] = ui.createText(instructionsText[i], instructionsSize, font, Koji.config.colors.buttonTextColor);
+        instructions[i] = ui.createText(instructionsText[i], instructionsSize, font, instructionsColor);
         instructions[i].y = title.y + titleSize * 0.75 + i * instructionsSize + (i * instructionsSize * 0.75);
 
         instructions[i].textAlign = 'center';
@@ -146,7 +232,7 @@ function setup() {
         instructions[i].anchor.x = ThreeUI.anchors.center;
         instructions[i].anchor.y = ThreeUI.anchors.top;
 
-        while (instructionsSize * instructions[i].text.length * 0.9 > window.innerWidth * 0.9) {
+        while (instructionsSize * instructions[i].text.length * 0.8 > window.innerWidth * 0.9) {
 
             instructionsSize *= 0.99;
             instructions[i].size = instructionsSize;
@@ -155,27 +241,22 @@ function setup() {
         }
     }
 
-    console.log(instructions);
 
+    scoreText = ui.createText("0", 48, font, Koji.config.colors.scoreColor);
+    scoreText.textAlign = 'right';
+    scoreText.anchor.x = ThreeUI.anchors.right;
+    scoreText.anchor.y = ThreeUI.anchors.top;
+    scoreText.x = 10;
+    scoreText.y = 50;
+    scoreText.visible = false;
 
-
-    document.addEventListener("keydown", handleInputDown, false);
-    document.addEventListener("keyup", handleInputUp, false);
-
-    document.onmousemove = function (e) {
-        mouseX = e.pageX;
-        mouseY = e.pageY;
-
-
-    }
-
-    //Start rendering the game
-    render();
-
-    updateLives();
-
-
-
+    highscoreText = ui.createText("Highscore:\n" + highscore, 24, font, Koji.config.colors.scoreColor);
+    highscoreText.textAlign = 'center';
+    highscoreText.anchor.x = ThreeUI.anchors.center;
+    highscoreText.anchor.y = ThreeUI.anchors.bottom;
+    highscoreText.x = 10;
+    highscoreText.y = 50;
+    highscoreText.visible = true;
 
 }
 
@@ -184,31 +265,39 @@ function setup() {
 function init() {
     gameOver = false;
 
-    initiateScene();
-
     boxes = [];
     platforms = [];
+    collectibles = [];
+
+    score = 0;
 
     lives = startingLives;
 
+    platformCount = 0;
+
     updateLives();
+
+    globalSpeed = globalSpeedMin;
 
 
     ball = new Ball(0, ballSize + 16, 0);
     platforms.push(new Platform(0, 0, 0));
 
     playButton.rectangle.visible = false;
+    //leaderboardButton.rectangle.visible = false;
     title.visible = false;
     for (let i = 0; i < instructions.length; i++) {
         instructions[i].visible = false;
     }
 
-
+    scoreText.visible = true;
+    highscoreText.visible = false;
 
 
 }
 
 function initiateScene() {
+
 
     scene = new THREE.Scene();
     let fogColor = new THREE.Color(Koji.config.colors.fogColor);
@@ -222,17 +311,30 @@ function initiateScene() {
 function handleInputDown() {
 
     var keyCode = event.which;
+
+    if (touching) return;
+
+    usingKeyboard = true;
+
     if (keyCode == 37) {
         //left
         ball.dir = -1;
 
+
     } else if (keyCode == 39) {
         //right
         ball.dir = 1;
+
     }
 
     if (keyCode == 32) {
-        init();
+        //space 
+
+        //Ommited for now
+        //submitScore();
+
+        //openLeaderboard();
+
     }
 
 }
@@ -255,22 +357,40 @@ function handleInputUp() {
 }
 
 function managePlatforms() {
-    if (platforms.length < 30) {
+
+    globalSpeedIncreaseTimer -= 1.0 / 60;
+    if (globalSpeedIncreaseTimer <= 0) {
+        if (globalSpeed < globalSpeedMax) {
+            globalSpeed += globalSpeedIncrease;
+            globalSpeedIncreaseTimer = globalSpeedIncreasePeriod;
+        }
+
+    }
+
+    if (platforms.length < 6) {
         let z = platforms[platforms.length - 1].mesh.position.z;
         platforms.push(new Platform(0, 0, z - ballSize * 15));
 
+        if (platformCount > 3) {
 
-        let x = random(leftBound, rightBound);
-        boxes.push(new Box(x, ballSize * 1.75, z - ballSize * 15));
+            let x = random(leftBound + ballSize * 1.5, rightBound - ballSize * 1.5);
+            let box = new Box(x, ballSize * 1.75, z - ballSize * 15);
+            if (platformCount > 5) {
+                if (Math.random() * 100 < 20) {
+                    box.moving = true;
 
-        let xCol = 0;
+                }
+            }
 
-        do {
-            xCol = random(leftBound, rightBound);
-        } while (Math.abs(x - xCol) < ballSize * 2);
+            boxes.push(box);
+            let xCol = 0;
 
+            do {
+                xCol = random(leftBound, rightBound);
+            } while (Math.abs(x - xCol) < ballSize * 2);
+            collectibles.push(new Collectible(xCol, ballSize * 1.75, z - ballSize * 5));
+        }
 
-        collectibles.push(new Collectible(xCol, ballSize * 1.75, z - ballSize * 5));
 
     }
 }
@@ -301,28 +421,47 @@ function loseLife() {
 function endGame() {
     gameOver = true;
 
-    scene = new THREE.Scene();
+    initiateScene();
 
     playButton.rectangle.visible = true;
+    //leaderboardButton.rectangle.visible = false;
     title.visible = true;
     for (let i = 0; i < instructions.length; i++) {
         instructions[i].visible = true;
     }
+
+    scoreText.visible = false;
+    highscoreText.visible = true;
+
+
 }
 
 
 // a basic render loop
 function render() {
     // do this again next frame
-    requestAnimationFrame(render);
+    requestID = requestAnimationFrame(render);
 
     if (gameOver) {
         //Draw Main Menu
+        if (inGame) {
+            playButton.update();
+            //leaderboardButton.update();
+        }
 
-        playButton.update();
     } else {
 
         ball.update();
+
+        if (!usingKeyboard) {
+            if (touching) {
+                ball.dir = Math.sign((mouseX - window.innerWidth / 2));
+            } else {
+                ball.dir = 0;
+            }
+        }
+
+
 
         for (let i = 0; i < platforms.length; i++) {
             platforms[i].update();
@@ -336,21 +475,24 @@ function render() {
             collectibles[i].update();
         }
 
-
         managePlatforms();
         updateLives();
 
         camera.position.x = Smooth(camera.position.x, ball.mesh.position.x, 12);
-
         cleanup();
+        scoreText.text = "" + score;
+    }
 
 
+    if (renderer && inGame) {
+        renderer.render(scene, camera);
 
+        if (renderUI) {
+            ui.render(renderer);
+        }
 
     }
 
-    renderer.render(scene, camera);
-    ui.render(renderer);
 };
 
 function cleanup() {
@@ -375,6 +517,7 @@ function cleanup() {
         if (collectibles[i].collected) {
 
             // collectibles[i].removable = true;
+
         }
 
         if (collectibles[i].removable) {

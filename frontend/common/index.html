@@ -3,11 +3,8 @@
   <head>
     <meta charset="utf-8" />
     <link rel="shortcut icon" href="./favicon.ico" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
-    <meta name="theme-color" content="#000000" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	<meta name="theme-color" content="#000000" />
     <!--
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
@@ -26,8 +23,33 @@
     <script async src='https://www.google-analytics.com/analytics.js'></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/104/three.min.js"></script>
   </head>
-  <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="#container"></div>
-  </body>
+
+  
+<!--Disable touch zooming, mobile scrolling, and right click on desktop-->
+
+<body id="root" style="background-color: #171717; touch-action: none; overflow: hidden; overscroll-behavior-y: contain; position: fixed; margin: 0; padding: 0; min-height: 100vh; width: 100%; overflow: hidden; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;"
+ oncontextmenu="return false">
+	<noscript>You need to enable JavaScript to run this app.</noscript>
+
+	<style type="text/css">
+
+		* {
+			margin: 0;
+			padding: 0;
+		}
+
+	</style>
+
+	
+</body>
+
+<footer>
+	<!-- Prevent mobile scrolling/refreshing -->
+	<script>
+		document.addEventListener('touchmove', function(e) {
+      e.preventDefault();
+    }, { passive: false });
+	</script>
+</footer>
+
 </html>

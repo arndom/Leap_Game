@@ -1,0 +1,71 @@
+{
+  "strings": {
+    "emailInputEnabled": false,
+    "font": "Baloo",
+    "title": "Rolling Ball",
+    "instructions1": "Collect as many Spheres as you can",
+    "instructions2": "Avoid all WALLS",
+    "instructions3": "Controls: TOUCH or ARROW KEYS",
+    "lives": "4",
+    "playButtonText": "PLAY NOW",
+    "scoreGain": "5"
+  },
+  "@@editor": [
+    {
+      "key": "strings",
+      "name": "Game Settings",
+      "icon": "⚙️",
+      "source": "strings.json",
+      "fields": [
+        {
+          "key": "font",
+          "name": "Game Font",
+          "description": "Name of the font the game will use. Allows most fonts from https://fonts.google.com/. Not all will load on mobile",
+          "type": "text"
+        },
+        {
+          "key": "title",
+          "name": "Game Title",
+          "description": "Name of your game",
+          "type": "text"
+        },
+        {
+          "key": "instructions1",
+          "name": "Instructions 1",
+          "description": "Instructions Text 1",
+          "type": "text"
+        },
+        {
+          "key": "instructions2",
+          "name": "Instructions 2",
+          "description": "Instructions Text 2",
+          "type": "text"
+        },
+        {
+          "key": "instructions3",
+          "name": "Instructions 3",
+          "description": "Instructions Text 3",
+          "type": "text"
+        },
+        {
+          "key": "playButtonText",
+          "name": "Play Button Text",
+          "description": "Text",
+          "type": "text"
+        },
+        {
+          "key": "lives",
+          "name": "Starting Lives",
+          "description": "Starting Lives",
+          "type": "text"
+        },
+        {
+          "key": "scoreGain",
+          "name": "Score Gain",
+          "description": "Base score gain for each collectible",
+          "type": "text"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "sounds": {
+    "collect": "https://objects.koji-cdn.com/4161ff4f-243d-46a7-bb31-5b1e7f36b4ee/collecdt.mp3",
+    "hit": "https://objects.koji-cdn.com/4161ff4f-243d-46a7-bb31-5b1e7f36b4ee/hit.mp3",
+    "backgroundMusic": "https://objects.koji-cdn.com/4161ff4f-243d-46a7-bb31-5b1e7f36b4ee/music.mp3"
+  },
+  "@@editor": [
+    {
+      "key": "sounds",
+      "name": "Sounds",
+      "icon": "🔊",
+      "source": "sounds.json",
+      "fields": [
+        {
+          "key": "backgroundMusic",
+          "name": "Music",
+          "description": "Get that party going",
+          "type": "sound"
+        },
+        {
+          "key": "collect",
+          "name": "Collect",
+          "description": "When you collect something",
+          "type": "sound"
+        },
+        {
+          "key": "hit",
+          "name": "Hit",
+          "description": "When you hit a wall",
+          "type": "sound"
+        }
+      ]
+    }
+  ]
+}
