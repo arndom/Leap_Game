@@ -4,7 +4,7 @@
 // create our basic constructs
 let scene; //initialised later
 let camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 20000);
-let renderer = new THREE.WebGLRenderer();
+let renderer = new THREE.WebGLRenderer({antialias: true});
 let ui;
 let listener = new THREE.AudioListener();
 camera.add(listener);
