@@ -4,7 +4,7 @@
 // create our basic constructs
 let scene; //initialised later
 let camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 20000);
-let renderer = new THREE.WebGLRenderer({antialias: true});
+let renderer = new THREE.WebGLRenderer({ antialias: true });
 let ui;
 let listener = new THREE.AudioListener();
 camera.add(listener);
@@ -31,12 +31,11 @@ let lifeIcons = [];
 let playButton;
 let soundButton;
 let imgSoundOff, imgSoundOn;
-//let leaderboardButton;
+let leaderboardButton;
 let title;
 let instructions = [];
 let instructionsText = [];
 let scoreText;
-let highscoreText;
 
 //Global Variables
 let mouseX = 0;
@@ -56,7 +55,6 @@ let score = 0;
 let requestID; //Should be used later for cancelling animation frames
 let renderUI = true;
 let inGame = true;
-let highscore = 0;
 let platformCount = 0;
 let touching = false;
 let usingKeyboard = false;
@@ -70,13 +68,13 @@ let lives = startingLives;
 //Time stuff
 clock = new THREE.Clock();
 
-initiateScene();
 
 function preload() {
+
     AssetLoader.add.image(Koji.config.images.life);
     AssetLoader.add.image(Koji.config.images.soundOff);
     AssetLoader.add.image(Koji.config.images.soundOn);
-    
+
 
     // Set a progress listener, can be used to create progress bars
     AssetLoader.progressListener = function (progress) {
@@ -111,6 +109,10 @@ function preload() {
 //Setup the game after loading
 function setup() {
 
+
+
+    initiateScene();
+
     // setup our renderer and add it to the DOM
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.domElement);
@@ -119,10 +121,6 @@ function setup() {
 
     camera.position.z = 1000;
     camera.position.y = 500;
-
-    if (window.localStorage.getItem("highscore")) {
-        highscore = window.localStorage.getItem("highscore");
-    }
 
     //Load textures
     textureBall = new THREE.TextureLoader().load(Koji.config.images.ball);
@@ -134,7 +132,11 @@ function setup() {
     texturePlatform.wrapT = THREE.RepeatWrapping;
     texturePlatform.repeat.set(4, 2);
 
-    loadUI();
+
+    if (!ui) {
+        loadUI();
+    }
+
 
     document.addEventListener("keydown", handleInputDown, false);
     document.addEventListener("keyup", handleInputUp, false);
@@ -192,19 +194,23 @@ function loadUI() {
 
     playButton = new Button(Koji.config.strings.playButtonText, 0);
     soundButton = new SoundButton();
-    //leaderboardButton = new Button("LEADERBOARD", 1);
+    leaderboardButton = new Button("LEADERBOARD", 1);
 
     playButton.rectangle.onClick(function () {
-        init();
+        if (gameOver) {
+            init();
+        }
+
+
     });
 
-    soundButton.rectangle.onClick(function(){
+    soundButton.rectangle.onClick(function () {
         toggleSound();
     });
 
-    //leaderboardButton.rectangle.onClick(function () {
-    //openLeaderboard();
-    //})
+    leaderboardButton.rectangle.onClick(function () {
+        openLeaderboard();
+    })
 
     //Title
     let titleSize = 128;
@@ -260,19 +266,13 @@ function loadUI() {
     scoreText.y = 50;
     scoreText.visible = false;
 
-    highscoreText = ui.createText("Highscore:\n" + highscore, 24, font, Koji.config.colors.scoreColor);
-    highscoreText.textAlign = 'center';
-    highscoreText.anchor.x = ThreeUI.anchors.center;
-    highscoreText.anchor.y = ThreeUI.anchors.bottom;
-    highscoreText.x = 10;
-    highscoreText.y = 50;
-    highscoreText.visible = true;
 
 }
 
 
 //Start the game
 function init() {
+
     gameOver = false;
 
     boxes = [];
@@ -294,14 +294,13 @@ function init() {
     platforms.push(new Platform(0, 0, 0));
 
     playButton.rectangle.visible = false;
-    //leaderboardButton.rectangle.visible = false;
+    leaderboardButton.rectangle.visible = false;
     title.visible = false;
     for (let i = 0; i < instructions.length; i++) {
         instructions[i].visible = false;
     }
 
     scoreText.visible = true;
-    highscoreText.visible = false;
 
 
 }
@@ -316,6 +315,7 @@ function initiateScene() {
 
     scene.background = backgroundColor;
     scene.fog = new THREE.Fog(fogColor, 50, 10000);
+
 }
 
 function handleInputDown() {
@@ -343,7 +343,7 @@ function handleInputDown() {
         //Ommited for now
         //submitScore();
 
-        //openLeaderboard();
+        openLeaderboard();
 
     }
 
@@ -431,18 +431,21 @@ function loseLife() {
 function endGame() {
     gameOver = true;
 
-    initiateScene();
-
     playButton.rectangle.visible = true;
-    
-    //leaderboardButton.rectangle.visible = false;
+
+    leaderboardButton.rectangle.visible = false;
     title.visible = true;
     for (let i = 0; i < instructions.length; i++) {
         instructions[i].visible = true;
     }
 
     scoreText.visible = false;
-    highscoreText.visible = true;
+
+    if (score > 0) {
+        submitScore();
+    }
+
+
 
 
 }
@@ -458,7 +461,7 @@ function render() {
         if (inGame) {
             playButton.update();
             soundButton.update();
-            //leaderboardButton.update();
+            leaderboardButton.update();
         }
 
     } else {

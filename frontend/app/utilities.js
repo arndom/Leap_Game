@@ -37,25 +37,6 @@ function openLeaderboard() {
 }
 //====
 
-function checkHighscore() {
-    if (highscore < score) {
-        highscore = score;
-    }
-
-    if (localStorage.getItem("highscore")) {
-        if (localStorage.getItem("highscore") < highscore) {
-            localStorage.setItem("highscore", highscore);
-        }
-    } else {
-        localStorage.setItem("highscore", highscore);
-    }
-
-    if (highscoreText) {
-        highscoreText.text = "Highscore:\n" + highscore;
-    }
-}
-
-
 //Make a copy of needed sound and play it immediately
 //Not sure if it causes leaks
 function playSound(sound) {

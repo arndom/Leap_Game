@@ -74,7 +74,6 @@ class Ball {
                 playSound(sndCollect);
 
                 score += scoreGain;
-                checkHighscore();
             }
         }
 
