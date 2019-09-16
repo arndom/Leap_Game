@@ -37,7 +37,6 @@ class GameContainer extends Component {
 
         inGame = false;
 
-
         cancelAnimationFrame(this.state.requestID);
 
         if (ui) {
@@ -48,16 +47,6 @@ class GameContainer extends Component {
         }
 
         document.body.removeChild(renderer.domElement);
-
-
-        //==Not needed
-        //renderer.forceContextLoss();
-        //renderer.context = null;
-        //renderer.domElement = null;
-        //renderer = null;
-        //scene.dispose();
-        //camera = null;
-
 
     }
 

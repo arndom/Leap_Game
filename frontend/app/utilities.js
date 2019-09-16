@@ -23,7 +23,7 @@ function getDistance(mesh1, mesh2) {
     return Math.sqrt(dx * dx + dy * dy + dz * dz);
 }
 
-//DO NOT USE FOR NOW
+
 function submitScore() {
     window.stop(requestID);
     window.setScore(score);
@@ -35,7 +35,6 @@ function openLeaderboard() {
     window.setAppView('leaderboard');
 
 }
-//====
 
 //Make a copy of needed sound and play it immediately
 //Not sure if it causes leaks

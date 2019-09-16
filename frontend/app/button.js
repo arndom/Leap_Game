@@ -31,6 +31,7 @@ class Button {
         this.text.anchor.x = ThreeUI.anchors.center;
         this.text.anchor.y = ThreeUI.anchors.center;
         this.text.parent = this.rectangle;
+        
 
         let rectSize = textSize * this.text.text.length * 0.9;
 
