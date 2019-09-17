@@ -2,7 +2,10 @@
 class Ball {
     constructor(x, y, z) {
         var geometry = new THREE.SphereGeometry(ballSize, 64, 64);
-        var material = new THREE.MeshBasicMaterial({ map: textureBall });
+        var material = new THREE.MeshPhongMaterial({ map: textureBall });
+
+        material.shininess = 80;
+        material.metalness = 1;
 
         this.mesh = new THREE.Mesh(geometry, material);
         this.mesh.position.x = x;
@@ -55,7 +58,7 @@ class Ball {
                     this.invincibilityTimer = 0.5;
                     boxes[i].destroyed = true;
                     boxes[i].moveDir = Math.sign(boxes[i].mesh.position.x - this.mesh.position.x);
-                    if(boxes[i].moveDir == 0){
+                    if (boxes[i].moveDir == 0) {
                         boxes[i].moveDir = 1
                     }
 
@@ -85,7 +88,7 @@ class Ball {
 
         //Probably not perfect but works in this case
         let tolerance = 1.5;
-        if(other instanceof Collectible){
+        if (other instanceof Collectible) {
             //make a bit easier to hit a collectible
             tolerance = 1;
 
@@ -106,7 +109,10 @@ class Platform {
     constructor(x, y, z) {
         var geometry = new THREE.BoxBufferGeometry(ballSize * 15, 64, ballSize * 15);
 
-        var material = new THREE.MeshBasicMaterial({ map: texturePlatform });
+        var material = new THREE.MeshPhongMaterial({ map: texturePlatform });
+
+         material.shininess = 80;
+        material.metalness = 0;
 
         this.mesh = new THREE.Mesh(geometry, material);
         this.mesh.position.x = x;
@@ -140,7 +146,10 @@ class Box {
         this.sizeMod = 3;
         let size = this.sizeMod * ballSize;
         var geometry = new THREE.BoxBufferGeometry(size, size, size);
-        var material = new THREE.MeshBasicMaterial({ map: textureBox });
+        var material = new THREE.MeshPhongMaterial({ map: textureBox });
+
+        material.shininess = 80;
+        material.metalness = 1;
 
         this.mesh = new THREE.Mesh(geometry, material);
         this.mesh.position.x = x;
@@ -191,7 +200,7 @@ class Box {
 
         if (this.destroyed) {
             this.moveSpeed = Smooth(this.moveSpeed, globalSpeed * this.moveDir * 6, 12);
-            
+
             this.mesh.position.x += this.moveSpeed;
         }
     }
@@ -201,7 +210,9 @@ class Box {
 class Collectible {
     constructor(x, y, z) {
         var geometry = new THREE.SphereGeometry(ballSize, 24, 24);
-        var material = new THREE.MeshBasicMaterial({ map: textureCollectible });
+        var material = new THREE.MeshPhongMaterial({ map: textureCollectible });
+        material.shininess = 80;
+        material.metalness = 1;
 
         this.mesh = new THREE.Mesh(geometry, material);
         this.mesh.position.x = x;

@@ -9,6 +9,18 @@ let ui;
 let listener = new THREE.AudioListener();
 camera.add(listener);
 
+//Create a DirectionalLight and turn on shadows for the light
+let light = new THREE.DirectionalLight(0xffffff, 0.75);
+light.castShadow = true;            // default false
+light.position.set(0, 0.5, 1);
+
+let pointLight = new THREE.PointLight(0xffffff, 1, 5000, 2);
+
+
+let ambientLight = new THREE.AmbientLight(0xffffff);
+ambientLight.intensity = 0.5;
+
+
 //Game Objects
 let ball;
 let platforms = [];
@@ -209,7 +221,10 @@ function loadUI() {
     });
 
     leaderboardButton.rectangle.onClick(function () {
-        openLeaderboard();
+        if(gameOver){
+            openLeaderboard();
+        }
+        
     })
 
     //Title
@@ -302,6 +317,8 @@ function init() {
 
     scoreText.visible = true;
 
+    pointLight.position.set(ball.mesh.position.x, ball.mesh.position.y, ball.mesh.position.z);
+
 
 }
 
@@ -316,6 +333,10 @@ function initiateScene() {
     scene.background = backgroundColor;
     scene.fog = new THREE.Fog(fogColor, 50, 10000);
 
+
+    scene.add(light);
+    scene.add(ambientLight);
+    //scene.add(pointLight);
 }
 
 function handleInputDown() {
@@ -343,7 +364,7 @@ function handleInputDown() {
         //Ommited for now
         //submitScore();
 
-        openLeaderboard();
+        //openLeaderboard();
 
     }
 
@@ -441,9 +462,12 @@ function endGame() {
 
     scoreText.visible = false;
 
-    if (score > 0) {
-        submitScore();
+    if (score < 1) {
+        score = 1;
     }
+
+    submitScore();
+
 
 
 
@@ -496,6 +520,8 @@ function render() {
         camera.position.x = Smooth(camera.position.x, ball.mesh.position.x, 12);
         cleanup();
         scoreText.text = "" + score;
+
+
     }
 
 
