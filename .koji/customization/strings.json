@@ -1,7 +1,7 @@
 {
   "strings": {
     "emailInputEnabled": false,
-    "font": "Baloo",
+    "fontFamily": "https://fonts.googleapis.com/css?family=Baloo",
     "title": "Rolling Ball",
     "instructions1": "Collect as many Spheres as you can",
     "instructions2": "Avoid all WALLS",
@@ -18,9 +18,9 @@
       "source": "strings.json",
       "fields": [
         {
-          "key": "font",
+          "key": "fontFamily",
           "name": "Game Font",
-          "description": "Name of the font the game will use. Allows most fonts from https://fonts.google.com/. Not all will load on mobile",
+          "description": "Font family link from https://fonts.google.com/",
           "type": "text"
         },
         {

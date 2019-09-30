@@ -110,6 +110,17 @@ function preload() {
         sndHit.setBuffer(buffer);
     });
 
+
+    //===Load font from google fonts link provided in game settings
+    var link = document.createElement('link');
+    link.href = Koji.config.strings.fontFamily;
+    link.rel = 'stylesheet';
+    document.head.appendChild(link);
+    font = getFontFamily(Koji.config.strings.fontFamily);
+    let newStr = font.replace("+", " ");
+    font = newStr;
+    //===
+
     // Load, and start game when done
     AssetLoader.load(function () { // This function is called when all assets are loaded
         // Initialize the game
@@ -221,10 +232,10 @@ function loadUI() {
     });
 
     leaderboardButton.rectangle.onClick(function () {
-        if(gameOver){
+        if (gameOver) {
             openLeaderboard();
         }
-        
+
     })
 
     //Title
@@ -467,9 +478,6 @@ function endGame() {
     }
 
     submitScore();
-
-
-
 
 
 }

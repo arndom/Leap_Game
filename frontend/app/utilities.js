@@ -39,26 +39,39 @@ function openLeaderboard() {
 //Make a copy of needed sound and play it immediately
 //Not sure if it causes leaks
 function playSound(sound) {
-    if(!soundEnabled) return;
+    if (!soundEnabled) return;
 
     if (sound) {
         let snd = new THREE.Audio(listener);
         snd.buffer = sound.buffer;
         snd.setPlaybackRate(random(0.8, 1.2));
         snd.play();
-        
+
     }
 }
 
-function toggleSound(){
+function toggleSound() {
     soundEnabled = !soundEnabled;
 
     soundButton.updateImage();
 
-    if(!soundEnabled){
+    if (!soundEnabled) {
         listener.setMasterVolume(0);
-    }else{
+    } else {
         listener.setMasterVolume(1);
     }
-    
+
 }
+
+
+//===Isolate the font name from the font link provided in game settings
+function getFontFamily(ff) {
+    const start = ff.indexOf('family=');
+    if (start === -1) return 'sans-serif';
+    let end = ff.indexOf('&', start);
+    if (end === -1) end = undefined;
+    return ff.slice(start + 7, end);
+}
+
+
+
