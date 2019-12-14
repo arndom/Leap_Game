@@ -24,8 +24,6 @@ ambientLight.intensity = 0.5;
 //Game Objects
 let ball;
 let platforms = [];
-let boxes = [];
-let collectibles = [];
 let coin = []; 
 
 //Textures
@@ -158,8 +156,7 @@ function setup() {
     textureBall = new THREE.TextureLoader().load(Koji.config.images.ball);
     textureCoin = new THREE.TextureLoader().load(Koji.config.images.coin);
     texturePlatform = new THREE.TextureLoader().load(Koji.config.images.platform);
-    textureBox = new THREE.TextureLoader().load(Koji.config.images.box);
-    textureCollectible = new THREE.TextureLoader().load(Koji.config.images.collectible);
+
 
     texturePlatform.wrapS = THREE.RepeatWrapping;
     texturePlatform.wrapT = THREE.RepeatWrapping;
