@@ -1,18 +1,19 @@
 {
   "images": {
-    "ball": "https://i.imgur.com/fe22ru1.png",
-    "platform": "https://i.imgur.com/pXutURF.png",
+    "ball": "https://images.koji-cdn.com/495596ec-3a8e-4688-8586-281536daada4/j6o5v-bT.png",
+    "platform": "https://images.koji-cdn.com/495596ec-3a8e-4688-8586-281536daada4/xi1rs-pT.png",
     "box": "https://i.imgur.com/POh8Fas.png",
     "collectible": "https://i.imgur.com/rn9fz6Z.png",
     "life": "https://i.imgur.com/nZQufaG.png",
     "soundOff": "https://i.imgur.com/YpvzL1E.png",
-    "soundOn": "https://i.imgur.com/N2Wm05l.png"
+    "soundOn": "https://i.imgur.com/N2Wm05l.png",
+    "coin": "https://images.koji-cdn.com/495596ec-3a8e-4688-8586-281536daada4/qyohy-cT.png"
   },
   "@@editor": [
     {
       "key": "images",
       "name": "Images",
-      "icon": "🖼️",
+      "icon": "🎭",
       "source": "images.json",
       "fields": [
         {
@@ -56,6 +57,12 @@
           "name": "Collectible",
           "type": "image",
           "description": "Collectible texture Ideal size: 128x128 or 256x256"
+        },
+        {
+          "key": "coin",
+          "name": "Coin",
+          "type": "image",
+          "description": "Coin texture Ideal size: 128x128 or 256x256"
         }
       ]
     }

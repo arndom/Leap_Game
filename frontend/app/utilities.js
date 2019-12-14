@@ -8,9 +8,14 @@
     w - goal value
     The higher the factor, the slower v approaches w.
 */
+
 function Smooth(current, goal, factor) {
     return ((current * (factor - 1)) + goal) / factor;
 }
+
+// function rand(min, max){
+//     return Math.floor(Math.random());
+// }
 
 function random(min, max) {
     return Math.random() * (max - min) + min;
@@ -22,6 +27,24 @@ function getDistance(mesh1, mesh2) {
     var dz = mesh1.position.z - mesh2.position.z;
     return Math.sqrt(dx * dx + dy * dy + dz * dz);
 }
+
+//this = mesh1 , other = mesh2
+function collisionWith(mesh1, mesh2) {
+        let distance = getDistance(mesh1, mesh2);
+
+        let tolerance = 1.5;
+
+        let requiredDistance = (mesh1.geometry.boundingSphere.radius + mesh2.geometry.boundingSphere.radius) / tolerance;
+
+        if (distance <= requiredDistance)
+        {
+            return true;
+        } else 
+        {
+            return false;
+        }
+
+    }
 
 
 function submitScore() {

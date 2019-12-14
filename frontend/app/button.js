@@ -96,10 +96,6 @@ class SoundButton {
 
     update() {
 
-
-
-
-
     }
 
     updateImage() {

@@ -1,14 +1,14 @@
 {
   "strings": {
     "emailInputEnabled": false,
-    "fontFamily": "https://fonts.googleapis.com/css?family=Baloo",
-    "title": "Rolling Ball",
-    "instructions1": "Collect as many Spheres as you can",
-    "instructions2": "Avoid all WALLS",
-    "instructions3": "Controls: TOUCH or ARROW KEYS",
-    "lives": "4",
-    "playButtonText": "PLAY NOW",
-    "scoreGain": "5"
+    "fontFamily": "https://fonts.googleapis.com/css?family=Roboto Condensed",
+    "title": "Leap",
+    "instructions0": "Jump on the platforms and try not fall",
+    "instructions1": "SPACEBAR = PC",
+    "instructions2": "TAP = MOBILE",
+    "lives": "1",
+    "playButtonText": "START",
+    "scoreGain": "4"
   },
   "@@editor": [
     {
@@ -30,6 +30,12 @@
           "type": "text"
         },
         {
+          "key": "instructions0",
+          "name": "Instructions0",
+          "description": "Instructions0",
+          "type": "text"
+        },
+        {
           "key": "instructions1",
           "name": "Instructions 1",
           "description": "Instructions Text 1",
@@ -39,12 +45,6 @@
           "key": "instructions2",
           "name": "Instructions 2",
           "description": "Instructions Text 2",
-          "type": "text"
-        },
-        {
-          "key": "instructions3",
-          "name": "Instructions 3",
-          "description": "Instructions Text 3",
           "type": "text"
         },
         {
