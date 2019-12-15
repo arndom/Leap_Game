@@ -313,7 +313,6 @@ function init() {
 
     ball = new Ball(0, ballSize + 16, 0);
 
-    coin= new Coin(0, coinSize + 16, 0);
 
     platforms.push(new Platform(0, 0, 0));
 
