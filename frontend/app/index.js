@@ -373,18 +373,18 @@ function handleInputDown() {
 function handleInputUp() {
     // console.log(ball.mesh.position.y);
 
-    var keyCode = event.which;
-    if (keyCode == 37) {
-        //left
-        if (ball.dir == -1) {
-            ball.dir = 0;
-        }
-    } else if (keyCode == 39) {
-        //right
-        if (ball.dir == 1) {
-            ball.dir = 0;
-        }
-    }
+    // var keyCode = event.which;
+    // if (keyCode == 37) {
+    //     //left
+    //     if (ball.dir == -1) {
+    //         ball.dir = 0;
+    //     }
+    // } else if (keyCode == 39) {
+    //     //right
+    //     if (ball.dir == 1) {
+    //         ball.dir = 0;
+    //     }
+    // }
 
 }
 
