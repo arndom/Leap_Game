@@ -54,10 +54,10 @@ let mouseY = 0;
 let gameOver = true;
 let globalSpeedIncreasePeriod = 10;
 let globalSpeedIncreaseTimer = globalSpeedIncreasePeriod;
-let globalSpeedMin = 4;
-let globalSpeedMax = 350;
+let globalSpeedMin =25;
+let globalSpeedMax = 100;
 let globalSpeed = globalSpeedMin;
-let globalSpeedIncrease = 1;
+let globalSpeedIncrease = 0.5;
 
 let ballSize = 64;
 let coinSize = 16;
@@ -521,13 +521,15 @@ function spawn(z){
     if (platforms.length < platformCount) { 
         platforms.push(new Platform(0, 0, z - ballSize*15 ));
 
-        if(platformCount % 21 == 0){
-            coin.push(new Coin(0, coinSize + 16, z - ballSize*15));
-        }
+        let inc = 5;
 
-        
-        
+          
+        if(platforms.length  %  inc == 0){
+            coin.push(new Coin(0, coinSize + 32, z - ballSize*15));
+            } 
     }
+
+   
 }
 
 preload();

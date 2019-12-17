@@ -71,6 +71,8 @@ class Ball {
                  playSound(sndCoin);
                 
                 score += scoreGain + 2;
+
+                
             }
         }
 
@@ -201,6 +203,7 @@ class Coin{
 
         this.point = false;
 
+       
         this.mesh.geometry.computeBoundingSphere();
         
         scene.add(this.mesh);
