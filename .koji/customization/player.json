@@ -1,0 +1,109 @@
+{
+  "player": {
+    "soccerball": {
+      "obj": "https://objects.koji-cdn.com/495596ec-3a8e-4688-8586-281536daada4/8LPtSUXSgqc/yajm2-model.obj",
+      "mtl": "https://objects.koji-cdn.com/495596ec-3a8e-4688-8586-281536daada4/8LPtSUXSgqc/n6hru-materials.mtl",
+      "texturePath": "https://objects.koji-cdn.com/495596ec-3a8e-4688-8586-281536daada4/8LPtSUXSgqc/",
+      "rawResources": [
+        "https://objects.koji-cdn.com/495596ec-3a8e-4688-8586-281536daada4/8LPtSUXSgqc/n6hru-materials.mtl",
+        "https://objects.koji-cdn.com/495596ec-3a8e-4688-8586-281536daada4/8LPtSUXSgqc/yajm2-model.obj"
+      ],
+      "thumbnailUrl": "https://images.koji-cdn.com/495596ec-3a8e-4688-8586-281536daada4/8LPtSUXSgqc/f6rrw-thumbnail.jpg",
+      "defaultOrientingRotation": {
+        "w": 1
+      }
+    },
+    "pokeball": {
+      "obj": "https://objects.koji-cdn.com/495596ec-3a8e-4688-8586-281536daada4/7A1aXHLxu1M/ii8fy-model.obj",
+      "mtl": "https://objects.koji-cdn.com/495596ec-3a8e-4688-8586-281536daada4/7A1aXHLxu1M/59yaz-materials.mtl",
+      "texturePath": "https://objects.koji-cdn.com/495596ec-3a8e-4688-8586-281536daada4/7A1aXHLxu1M/",
+      "rawResources": [
+        "https://objects.koji-cdn.com/495596ec-3a8e-4688-8586-281536daada4/7A1aXHLxu1M/59yaz-materials.mtl",
+        "https://objects.koji-cdn.com/495596ec-3a8e-4688-8586-281536daada4/7A1aXHLxu1M/ii8fy-model.obj"
+      ],
+      "thumbnailUrl": "https://images.koji-cdn.com/495596ec-3a8e-4688-8586-281536daada4/7A1aXHLxu1M/lxkg4-thumbnail.jpg",
+      "defaultOrientingRotation": {
+        "w": 1
+      }
+    },
+    "earth": {
+      "obj": "https://objects.koji-cdn.com/495596ec-3a8e-4688-8586-281536daada4/dQcv6bKXuQD/hb39y-model.obj",
+      "mtl": "https://objects.koji-cdn.com/495596ec-3a8e-4688-8586-281536daada4/dQcv6bKXuQD/7qrpx-materials.mtl",
+      "texturePath": "https://objects.koji-cdn.com/495596ec-3a8e-4688-8586-281536daada4/dQcv6bKXuQD/",
+      "rawResources": [
+        "https://objects.koji-cdn.com/495596ec-3a8e-4688-8586-281536daada4/dQcv6bKXuQD/7qrpx-materials.mtl",
+        "https://objects.koji-cdn.com/495596ec-3a8e-4688-8586-281536daada4/dQcv6bKXuQD/hb39y-model.obj"
+      ],
+      "thumbnailUrl": "https://images.koji-cdn.com/495596ec-3a8e-4688-8586-281536daada4/dQcv6bKXuQD/uq4ql-thumbnail.jpg",
+      "defaultOrientingRotation": {
+        "w": 1
+      }
+    },
+    "tennisball": {
+      "obj": "https://objects.koji-cdn.com/495596ec-3a8e-4688-8586-281536daada4/4IwPTeOmq6c/yavjn-model.obj",
+      "mtl": "https://objects.koji-cdn.com/495596ec-3a8e-4688-8586-281536daada4/4IwPTeOmq6c/0tv5h-materials.mtl",
+      "texturePath": "https://objects.koji-cdn.com/495596ec-3a8e-4688-8586-281536daada4/4IwPTeOmq6c/",
+      "rawResources": [
+        "https://objects.koji-cdn.com/495596ec-3a8e-4688-8586-281536daada4/4IwPTeOmq6c/yavjn-model.obj",
+        "https://objects.koji-cdn.com/495596ec-3a8e-4688-8586-281536daada4/4IwPTeOmq6c/0tv5h-materials.mtl"
+      ],
+      "thumbnailUrl": "https://images.koji-cdn.com/495596ec-3a8e-4688-8586-281536daada4/4IwPTeOmq6c/88ez0-thumbnail.jpg",
+      "defaultOrientingRotation": {
+        "w": 1
+      }
+    },
+    "ship": {
+      "obj": "https://objects.koji-cdn.com/495596ec-3a8e-4688-8586-281536daada4/fojR5i3h_nh/ozqgl-flying20sacuer.obj",
+      "mtl": "https://objects.koji-cdn.com/495596ec-3a8e-4688-8586-281536daada4/fojR5i3h_nh/nttz2-flying20sacuer.mtl",
+      "texturePath": "https://objects.koji-cdn.com/495596ec-3a8e-4688-8586-281536daada4/fojR5i3h_nh/",
+      "rawResources": [
+        "https://objects.koji-cdn.com/495596ec-3a8e-4688-8586-281536daada4/fojR5i3h_nh/ozqgl-flying20sacuer.obj",
+        "https://objects.koji-cdn.com/495596ec-3a8e-4688-8586-281536daada4/fojR5i3h_nh/nttz2-flying20sacuer.mtl"
+      ],
+      "thumbnailUrl": "https://images.koji-cdn.com/495596ec-3a8e-4688-8586-281536daada4/fojR5i3h_nh/9zu4p-thumbnail.jpg",
+      "defaultOrientingRotation": {
+        "w": 1
+      }
+    }
+  },
+  "@@editor": [
+    {
+      "key": "player",
+      "name": "Player",
+      "icon": "🎮",
+      "source": "player.json",
+      "fields": [
+        {
+          "key": "soccerball",
+          "name": "Soccer Ball",
+          "type": "obj",
+          "description": "3D object gotten from google poly"
+        },
+        {
+          "key": "pokeball",
+          "name": "Poke Ball",
+          "type": "obj",
+          "description": "3D object gotten from google poly"
+        },
+        {
+          "key": "earth",
+          "name": "Earth",
+          "type": "obj",
+          "description": "3D object gotten from google poly"
+        },
+        {
+          "key": "tennisball",
+          "name": "Tennis Ball",
+          "type": "obj",
+          "description": "3D object gotten from google poly"
+        },
+        {
+          "key": "ship",
+          "name": "Ship",
+          "type": "obj",
+          "description": "3D object gotten from google poly"
+        }
+      ]
+    }
+  ]
+}

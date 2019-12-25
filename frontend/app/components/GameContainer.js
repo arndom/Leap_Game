@@ -15,6 +15,8 @@ class GameContainer extends Component {
         if (!window.setup) {
             require('script-loader!app/helpers/asset-loader.min.js');
             require('script-loader!app/helpers/three-ui.min.js');
+            require('script-loader!app/helpers/obj-loader.js');
+            require('script-loader!app/helpers/mtl-loader.js');
             require('script-loader!app/button.js');
             require('script-loader!app/utilities.js');
             require('script-loader!app/entities.js');

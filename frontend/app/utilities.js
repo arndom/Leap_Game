@@ -29,22 +29,23 @@ function getDistance(mesh1, mesh2) {
 }
 
 //this = mesh1 , other = mesh2
-function collisionWith(mesh1, mesh2) {
-        let distance = getDistance(mesh1, mesh2);
+// function collisionWith(mesh1, mesh2) {
+//         let distance = getDistance(mesh1, mesh2);
 
-        let tolerance = 1.5;
+//         let tolerance = 1.5;
 
-        let requiredDistance = (mesh1.geometry.boundingSphere.radius + mesh2.geometry.boundingSphere.radius) / tolerance;
+//         let requiredDistance = (mesh1.geometry.boundingSphere.radius + mesh2.geometry.boundingSphere.radius) / tolerance;
 
-        if (distance <= requiredDistance)
-        {
-            return true;
-        } else 
-        {
-            return false;
-        }
+//         if (distance <= requiredDistance)
+//         {
+//             return true;
+//         } else 
+//         {
+//             return false;
+//         }
 
-    }
+// }
+
 
 
 function submitScore() {
@@ -84,6 +85,47 @@ function toggleSound() {
         listener.setMasterVolume(1);
     }
 
+}
+
+function loadModel(mtlPath, objPath, targetModel, size){
+    var mtlLoader = new THREE.MTLLoader();
+    mtlLoader.crossOrigin = true;
+    mtlLoader.setMaterialOptions({
+        ignoreZeroRGBs: true
+    });
+
+    totalModels++;
+    mtlLoader.load(mtlPath, function (materials) {
+
+        materials.preload();
+        var objLoader = new THREE.OBJLoader();
+        
+        objLoader.setMaterials(materials);
+        objLoader.load(objPath, function (object) {
+
+            for (var key in materials.materials) {
+                materials.materials[key].reflectivity = 0.3;
+                materials.materials[key].shininess = 10;
+
+            }
+
+            //Regulate size
+            var box = new THREE.Box3().setFromObject(object);
+            object.children[0].geometry.computeBoundingSphere();
+            let radius = object.children[0].geometry.boundingSphere.radius;
+            let scale = size / radius;
+            object.scale.multiplyScalar(scale);
+
+            modelsLoaded++;
+
+            console.log("Loaded:");
+            console.log(objPath)
+
+            targetModel.model = object;
+
+        });
+        //, onProgress, onError );
+    });
 }
 
 

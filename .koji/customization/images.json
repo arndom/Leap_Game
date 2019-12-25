@@ -7,7 +7,17 @@
     "life": "https://i.imgur.com/nZQufaG.png",
     "soundOff": "https://i.imgur.com/YpvzL1E.png",
     "soundOn": "https://i.imgur.com/N2Wm05l.png",
-    "coin": "https://images.koji-cdn.com/495596ec-3a8e-4688-8586-281536daada4/qyohy-cT.png"
+    "coin": "https://images.koji-cdn.com/495596ec-3a8e-4688-8586-281536daada4/qyohy-cT.png",
+    "slider": "https://images.koji-cdn.com/495596ec-3a8e-4688-8586-281536daada4/ih9hi-arrowright01256.png",
+    "clock": "https://images.koji-cdn.com/495596ec-3a8e-4688-8586-281536daada4/lxqes-256x256clock.png",
+    "powerup": "https://images.koji-cdn.com/495596ec-3a8e-4688-8586-281536daada4/izhja-pUT.png",
+    "soccer": "https://images.koji-cdn.com/495596ec-3a8e-4688-8586-281536daada4/f0kkc-clipartfootball256x256df79.png",
+    "poke": "https://images.koji-cdn.com/495596ec-3a8e-4688-8586-281536daada4/5i6zj-PokeBall256.png",
+    "tennis": "https://images.koji-cdn.com/495596ec-3a8e-4688-8586-281536daada4/b8zsw-clipartbeachball256x2563090.png",
+    "earth": "https://images.koji-cdn.com/495596ec-3a8e-4688-8586-281536daada4/zej8b-clipartearthsmallicon256x2565881.png",
+    "ship": "https://images.koji-cdn.com/495596ec-3a8e-4688-8586-281536daada4/k0emz-clipartufo256x256ee8d.png",
+    "bounce": "https://images.koji-cdn.com/495596ec-3a8e-4688-8586-281536daada4/yuyvs-clipartball256x2564511.png",
+    "selector": "https://images.koji-cdn.com/495596ec-3a8e-4688-8586-281536daada4/ylmhg-arrowright01256.png"
   },
   "@@editor": [
     {
@@ -63,6 +73,60 @@
           "name": "Coin",
           "type": "image",
           "description": "Coin texture Ideal size: 128x128 or 256x256"
+        },
+        {
+          "key": "selector",
+          "name": "Selector",
+          "type": "image",
+          "description": "Selector texture Ideal size: 128x128 or 256x256"
+        },
+        {
+          "key": "clock",
+          "name": "Clock",
+          "type": "image",
+          "description": "Clock texture Ideal size: 128x128 or 256x256"
+        },
+        {
+          "key": "powerup",
+          "name": "PowerUp",
+          "type": "image",
+          "description": "PowerUp texture Ideal size: 128x128 or 256x256"
+        },
+        {
+          "key": "soccer",
+          "name": "Soccer",
+          "type": "image",
+          "description": "Soccer Ball texture Ideal size: 128x128 or 256x256"
+        },
+        {
+          "key": "poke",
+          "name": "Poke",
+          "type": "image",
+          "description": "PokeBall texture Ideal size: 128x128 or 256x256"
+        },
+        {
+          "key": "tennis",
+          "name": "Tennis",
+          "type": "image",
+          "description": "Tennis Ball texture Ideal size: 128x128 or 256x256"
+        },
+        {
+          "key": "earth",
+          "name": "Earth",
+          "type": "image",
+          "description": "Earth texture Ideal size: 128x128 or 256x256"
+        },
+        {
+          "key": "ship",
+          "name": "Ship",
+          "type": "image",
+          "description": "Ship texture Ideal size: 128x128 or 256x256"
+        },
+        {
+          "key": "bounce",
+          "name": "Bounce",
+          "type": "image",
+          "description": "Bounce Ball texture Ideal size: 128x128 or 256x256"
         }
       ]
     }

@@ -16,10 +16,15 @@ class Button {
 
         this.rectangle.anchor.x = ThreeUI.anchors.center;
         this.rectangle.anchor.y = ThreeUI.anchors.center;
+        this.rectangle.y = 20;
 
         if (type == 1) {
             this.rectangle.anchor.y = ThreeUI.anchors.bottom;
+            this.rectangle.y = 60;
+            
         }
+
+
 
         // Create text (text, font, color)
         let textSize = 32;
@@ -66,7 +71,7 @@ class SoundButton {
 
         let size = 32;
 
-        this.sprite = Koji.config.soundOn;
+        // this.sprite = Koji.config.soundOn;
 
         this.img = ui.createSprite(Koji.config.images.soundOff);
         this.img.x = 32;
@@ -107,3 +112,68 @@ class SoundButton {
         this.img.setAssetPath(this.sprite);
     }
 }
+
+class SliderButton{
+    constructor(type, xPosition){
+        
+        let size = 64;
+
+        // this.sprite = Koji.config.soundOn;
+        if(type ==0){
+            this.img = ui.createSprite(Koji.config.images.bounce);
+        }
+        
+        if(type == 1){
+             this.img = ui.createSprite(Koji.config.images.soccer);
+        }
+
+        if(type == 2){
+            this.img = ui.createSprite(Koji.config.images.poke);
+        }
+
+        if(type == 3){
+            this.img = ui.createSprite(Koji.config.images.tennis);
+        }
+
+        if(type == 4){
+            this.img = ui.createSprite(Koji.config.images.ship);
+        }
+
+        if(type == 5){
+            this.img = ui.createSprite(Koji.config.images.earth);
+        }
+        
+        this.img.x = xPosition;
+        this.img.y = 80;
+
+        this.img.pivot.x = 0.5;
+        this.img.pivot.y = 0.5;
+
+        this.img.width = size;
+        this.img.height = size;
+
+        this.img.anchor.x = ThreeUI.anchors.center;
+        this.img.anchor.y = ThreeUI.anchors.center;
+
+        let color = Koji.config.colors.buttonColor;
+
+        this.rectangle = ui.createRectangle(color, this.img.x, this.img.y, this.img.width, this.img.height);
+
+        this.rectangle.pivot.x = 0.5;
+        this.rectangle.pivot.y = 0.5;
+
+        this.rectangle.alpha = 0;
+
+        this.rectangle.anchor.x = ThreeUI.anchors.center;
+        this.rectangle.anchor.y = ThreeUI.anchors.center;
+
+        this.img.parent = this.rectangle;
+
+    }
+
+    update(){
+
+    }
+}
+
+

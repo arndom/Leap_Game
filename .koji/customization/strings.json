@@ -6,9 +6,15 @@
     "instructions0": "Jump on the platforms and try not fall",
     "instructions1": "SPACEBAR = PC",
     "instructions2": "TAP = MOBILE",
+    "instructions3": "SELECT PLAYER BELOW",
     "lives": "1",
     "playButtonText": "START",
-    "scoreGain": "4"
+    "scoreGain": "4",
+    "minWorldSpeed": "25",
+    "maxWorldSpeed": "100",
+    "amount": "2",
+    "duration": "12"
+    
   },
   "@@editor": [
     {
@@ -48,6 +54,12 @@
           "type": "text"
         },
         {
+          "key": "instructions3",
+          "name": "Instructions 3",
+          "description": "Instructions Text 3",
+          "type": "text"
+        },
+        {
           "key": "playButtonText",
           "name": "Play Button Text",
           "description": "Text",
@@ -63,6 +75,30 @@
           "key": "scoreGain",
           "name": "Score Gain",
           "description": "Base score gain for each collectible",
+          "type": "text"
+        },
+        {
+          "key": "minWorldSpeed",
+          "name": "Min World Speed",
+          "description": "Minimum World Speed",
+          "type": "text"
+        },
+        {
+          "key": "maxWorldSpeed",
+          "name": "Max World Speed",
+          "description": "Maximum World Speed",
+          "type": "text"
+        },
+        {
+          "key": "duration",
+          "name": "Duration of Speed increase",
+          "description": "Duration by which World Speed increases",
+          "type": "text"
+        },
+        {
+          "key": "amount",
+          "name": "Amount of Speed increase",
+          "description": "Amount by which World Speed increases",
           "type": "text"
         }
       ]

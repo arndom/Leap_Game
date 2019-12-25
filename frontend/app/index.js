@@ -1,4 +1,4 @@
-// An example three.js project, a spinning cube
+ // An example three.js project, a spinning cube
 
 // create our basic constructs
 
@@ -25,22 +25,42 @@ ambientLight.intensity = 0.5;
 let ball;
 let platforms = [];
 let coin = []; 
+let powerup = [];
 
 //Textures
 let textureBall;
 let texturePlatform;
 let textureCoin;
+let texturePowerup;
+let art ;
 
+// ball = true
+let playerChoice = true; 
+
+let modelPlayersChoice = { model: null };
+let modelPlayer1 = { model: null };
+let modelPlayer2 = { model: null };
+let modelPlayer3 = { model: null };
+let modelPlayer4 = { model: null };
+let modelPlayer5 = { model: null };
+
+let modelName =  'soccerball';
 
 //Sounds
 let sndMusic = new THREE.Audio(listener);
 let sndCoin = new THREE.Audio(listener);
 let sndJump = new THREE.Audio(listener);
+// let sndPowerup = new THREE.Audio(listener);
 
 //UI
 let lifeIcons = [];
+
+let clockIcon;
+
+let selectorIcon;
+
 let playButton;
-let soundButton;
+let soundButton, soccerButton, pokeButton, tennisButton, shipButton, bounceButton, earthButton;
 let imgSoundOff, imgSoundOn;
 let leaderboardButton;
 let title;
@@ -48,19 +68,30 @@ let instructions = [];
 let instructionsText = [];
 let scoreText;
 
+let timerText;
+
 //Global Variables
 let mouseX = 0;
 let mouseY = 0;
 let gameOver = true;
-let globalSpeedIncreasePeriod = 10;
+let globalSpeedIncreasePeriod = parseInt(Koji.config.strings.duration);//10
 let globalSpeedIncreaseTimer = globalSpeedIncreasePeriod;
-let globalSpeedMin =25;
-let globalSpeedMax = 100;
+let globalSpeedMin =parseInt(Koji.config.strings.minWorldSpeed); //30
+let globalSpeedMax = parseInt(Koji.config.strings.maxWorldSpeed); //100
 let globalSpeed = globalSpeedMin;
-let globalSpeedIncrease = 0.5;
+let globalSpeedIncrease = parseInt(Koji.config.strings.amount); //2
 
 let ballSize = 64;
 let coinSize = 16;
+let powerupSize = 16;
+
+let pwidth = 7.5 ;
+let pdepth = 5;
+
+
+let totalModels = 0;
+let modelsLoaded = 0;
+
 
 // limit = how far the player moves to fall off platform 
 
@@ -83,6 +114,7 @@ let scoreGain = parseInt(Koji.config.strings.scoreGain);
 let startingLives = parseInt(Koji.config.strings.lives);
 let lives = startingLives;
 
+
 //Time stuff
 
 clock = new THREE.Clock();
@@ -92,6 +124,21 @@ function preload() {
     AssetLoader.add.image(Koji.config.images.life);
     AssetLoader.add.image(Koji.config.images.soundOff);
     AssetLoader.add.image(Koji.config.images.soundOn);
+    AssetLoader.add.image(Koji.config.images.clock);
+
+    AssetLoader.add.image(Koji.config.images.selector);
+    
+    AssetLoader.add.image(Koji.config.images.soccer);
+    AssetLoader.add.image(Koji.config.images.poke);
+    AssetLoader.add.image(Koji.config.images.tennis);
+    AssetLoader.add.image(Koji.config.images.earth);
+    AssetLoader.add.image(Koji.config.images.ship);
+    AssetLoader.add.image(Koji.config.images.bounce);
+
+
+
+
+
 
     // Set a progress listener, can be used to create progress bars
 
@@ -117,6 +164,13 @@ function preload() {
         sndJump.setBuffer(buffer);
     });
 
+    loadModel(Koji.config.player.soccerball.mtl, Koji.config.player.soccerball.obj, modelPlayer1, ballSize*0.8);
+    loadModel(Koji.config.player.pokeball.mtl, Koji.config.player.pokeball.obj, modelPlayer2, ballSize * 1.2);
+    loadModel(Koji.config.player.earth.mtl, Koji.config.player.earth.obj, modelPlayer3, ballSize *2);
+    loadModel(Koji.config.player.tennisball.mtl, Koji.config.player.tennisball.obj, modelPlayer4, ballSize*1.15);
+    loadModel(Koji.config.player.ship.mtl, Koji.config.player.ship.obj, modelPlayer5, ballSize* 2);
+
+
     //===Load font from google fonts link provided in game settings
 
     var link = document.createElement('link');
@@ -140,7 +194,7 @@ function preload() {
 //Setup the game after loading'
 
 function setup() {
-    initiateScene();8
+    initiateScene();
 
     // setup our renderer and add it to the DOM
     
@@ -156,6 +210,7 @@ function setup() {
     textureBall = new THREE.TextureLoader().load(Koji.config.images.ball);
     textureCoin = new THREE.TextureLoader().load(Koji.config.images.coin);
     texturePlatform = new THREE.TextureLoader().load(Koji.config.images.platform);
+    texturePowerup = new THREE.TextureLoader().load(Koji.config.images.powerup);
 
 
     texturePlatform.wrapS = THREE.RepeatWrapping;
@@ -183,7 +238,6 @@ function setup() {
         onMouseUp(e);
     }, false);
 
-
     //Start rendering the game
     render();
 
@@ -198,7 +252,13 @@ function onMouseDown(e) {
 
     touching = true;
     usingKeyboard = false;
-    platformCount ++
+
+    if (ball) {
+        ball.jump();
+    }
+
+    platformCount ++;
+    
 }
 
 //touch Up
@@ -208,10 +268,13 @@ function onMouseUp(e) {
     usingKeyboard = false;
 }
 
+
+
 function loadUI() {
     //Load UI
     // Create a UI of 720 pixels high
     // will scale up to match renderer.domElement's size
+
     ui = new ThreeUI(renderer.domElement, 720);
     
     for (let i = 0; i < startingLives; i++) {
@@ -226,12 +289,119 @@ function loadUI() {
         lifeIcons[i].height = size;
     }
 
+    let clocksize = 50;
+    clockIcon = ui.createSprite(Koji.config.images.clock);
+
+    clockIcon.width = clocksize;
+    clockIcon.height = clocksize;
+
+    clockIcon.anchor.x = ThreeUI.anchors.right;
+    clockIcon.anchor.y = ThreeUI.anchors.top;
+
+    clockIcon.y = 40;
+    clockIcon.x = 50;
+
+    clockIcon.visible = false;
+
+    let selectorSize = 35;
+    selectorIcon = ui.createSprite(Koji.config.images.selector);
+
+    selectorIcon.width = selectorSize;
+    selectorIcon.height = selectorSize;
+
+    selectorIcon.anchor.x = ThreeUI.anchors.center;
+    selectorIcon.anchor.y = ThreeUI.anchors.center;
+
+    selectorIcon.y = 210;
+    
+    selectorIcon.visible = false;
+
     playButton = new Button(Koji.config.strings.playButtonText, 0);
+    
     soundButton = new SoundButton();
+    
     leaderboardButton = new Button("LEADERBOARD", 1);
+    
+ //let soundButton, soccerButton, pokeButton, tennisButton, shipButton, bounceButton, earthButtl;
+    
+    
+    soccerButton = new SliderButton(1, -30);
+    pokeButton = new SliderButton(2, -70);
+    tennisButton = new SliderButton(3, 15);
+    shipButton = new SliderButton(4, 55); 
+    bounceButton = new SliderButton(0, -110);
+    earthButton = new SliderButton(5, 100);
+
+    bounceButton.img.onClick(function () {
+        if (gameOver){
+            playerChoice = true; 
+            // art = Koji.config.images.bounce;
+            selectorIcon.x = -220; //  bounce
+            selectorIcon.visible = true;
+        }
+          
+    });
+
+    soccerButton.img.onClick(function () {
+        if (gameOver){
+            playerChoice = false; 
+            modelName = "soccerball";
+            // art = Koji.config.images.soccer;
+            selectorIcon.x = -60; // soccerball
+            selectorIcon.visible = true;
+        }
+    });
+
+    pokeButton.img.onClick(function () {
+        if (gameOver){
+            playerChoice = false;
+            modelName = "pokeball";
+            // art =  Koji.config.images.poke;
+            selectorIcon.x = -140; // poke
+            selectorIcon.visible = true;
+        }
+          
+    });
+
+    tennisButton.img.onClick(function () {
+        if (gameOver){
+            playerChoice = false;
+            modelName = "tennisball"; 
+            // art = Koji.config.images.tennis;
+            selectorIcon.x = 30; // beach ball
+            selectorIcon.visible = true;
+
+        }
+
+    });
+
+    shipButton.img.onClick(function () {
+        if (gameOver){
+            playerChoice = false;
+            modelName = "ship"; 
+            // art= Koji.config.images.ship;
+            selectorIcon.x = 110; // ship
+            selectorIcon.visible = true;
+
+        }
+
+    });
+
+    earthButton.img.onClick(function () {
+        if (gameOver){
+            playerChoice = false;
+            modelName = "earth"; 
+            // art=Koji.config.images.earth;
+            selectorIcon.x = 200; // earth 
+            selectorIcon.visible = true;
+            
+        }
+    });
 
     playButton.rectangle.onClick(function () {
-        if (gameOver) {
+        if (gameOver && totalModels == modelsLoaded) {
+        // if (gameOver ) {
+
             init();
         }
 
@@ -244,6 +414,7 @@ function loadUI() {
     leaderboardButton.rectangle.onClick(function () {
         if (gameOver) {
             openLeaderboard();
+            
         }
 
     })
@@ -271,6 +442,7 @@ function loadUI() {
     instructionsText[0] = Koji.config.strings.instructions0;
     instructionsText[1] = Koji.config.strings.instructions1;
     instructionsText[2] = Koji.config.strings.instructions2;
+    instructionsText[3] = Koji.config.strings.instructions3;
 
     instructionsSize = 25;
     for (let i = 0; i < instructionsText.length; i++) {
@@ -291,19 +463,42 @@ function loadUI() {
     scoreText.y = 80;
     scoreText.visible = false;
 
+    timerText = ui.createText("0", 38, font, Koji.config.colors.scoreColor);
+    timerText.textAlign = 'right';
+    timerText.anchor.x = ThreeUI.anchors.right;
+    timerText.anchor.y = ThreeUI.anchors.top;
+    timerText.y = 100;
+    timerText.x = 20;
+    timerText.visible = false;
+
+    speedText = ui.createText("Speed +" + globalSpeedIncrease, 38, font, Koji.config.colors.scoreColor);
+    speedText.textAlign = 'center';
+    speedText.anchor.x =  ThreeUI.anchors.center;
+    speedText.anchor.y = ThreeUI.anchors.center;
+    speedText.visible = false;
 
 }
 
 //Start the game
 function init() {   
+  
+    playerModelChosen(modelName)
 
     gameOver = false;
 
     platforms = [];
     coin  = [];
+    powerup =[];
 
 
     score = 0;
+
+    globalSpeedIncreasePeriod = 10;
+    globalSpeedIncreaseTimer = globalSpeedIncreasePeriod;
+
+    platformCount = 10;
+    
+    pwidth  = 7.5;
 
     lives = startingLives;
 
@@ -314,23 +509,38 @@ function init() {
     ball = new Ball(0, ballSize + 16, 0);
 
 
-    platforms.push(new Platform(0, 0, 0));
+
+    platforms.push(new Platform(0, 0, 0, pwidth));
 
     playButton.rectangle.visible = false;
+
+    soccerButton.rectangle.visible = false;
+    tennisButton.rectangle.visible = false;
+    bounceButton.rectangle.visible = false;
+    shipButton.rectangle.visible = false;
+    earthButton.rectangle.visible = false;
+    pokeButton.rectangle.visible = false;
+
+    selectorIcon.visible = false;
+
     leaderboardButton.rectangle.visible = false;
     title.visible = false;
+    // speedText.visible = false;
+
     for (let i = 0; i < instructions.length; i++) {
         instructions[i].visible = false;
     }
 
     scoreText.visible = true;
+    timerText.visible = true;
+    clockIcon.visible = true;
+
 
     pointLight.position.set(ball.mesh.position.x, ball.mesh.position.y, ball.mesh.position.z);
 
 }
 
 function initiateScene() {
-
 
     scene = new THREE.Scene();
     let fogColor = new THREE.Color(Koji.config.colors.fogColor);
@@ -360,11 +570,8 @@ function handleInputDown() {
         if (ball) {
             ball.jump();
         }
-        // console.log("press");
-        // console.log(ball.mesh.position.y);
 
-        platformCount ++
-        // console.log(platformCount);
+        platformCount ++;
     }
 
 } 
@@ -388,19 +595,50 @@ function handleInputUp() {
 }
 
 function managePlatforms() {
-
     globalSpeedIncreaseTimer -= 1.0 / 60;
-
     if (globalSpeedIncreaseTimer <= 0) {
         if (globalSpeed < globalSpeedMax) {
             globalSpeed += globalSpeedIncrease;
             globalSpeedIncreaseTimer = globalSpeedIncreasePeriod;
         }
+ 
     }
+    if(platformCount > 10){
+        if(globalSpeedIncreaseTimer == globalSpeedIncreasePeriod || globalSpeedIncreaseTimer >= (globalSpeedIncreasePeriod -0.3) ){
+            speedText.visible = true;
+        }
+        else{
+            speedText.visible = false;
+        }
+    }
+    
+  
 
     let g = platforms[platforms.length - 1].mesh.position.z;    
     spawn(g);
     
+}
+
+function playerModelChosen(modelName){
+
+    switch(modelName){
+        case 'soccerball':
+            modelPlayersChoice = modelPlayer1;
+            break;
+        case 'pokeball':
+            modelPlayersChoice = modelPlayer2;
+            break;
+        case 'earth':
+            modelPlayersChoice = modelPlayer3;
+            break;
+        case 'tennisball':
+            modelPlayersChoice = modelPlayer4;
+            break;
+        case 'ship':
+            modelPlayersChoice = modelPlayer5;
+            break;
+    }
+
 }
 
 function updateLives() {
@@ -430,6 +668,12 @@ function endGame() {
     gameOver = true;
 
     playButton.rectangle.visible = true;
+    soccerButton.rectangle.visible = true;
+    tennisButton.rectangle.visible = true;
+    bounceButton.rectangle.visible = true;
+    shipButton.rectangle.visible = true;
+    earthButton.rectangle.visible = true;
+    pokeButton.rectangle.visible = true;
 
     leaderboardButton.rectangle.visible = false;
     title.visible = true;
@@ -438,6 +682,8 @@ function endGame() {
     }
 
     scoreText.visible = false;
+    timerText.visible = false;
+    clockIcon.visible = false;
 
     if (score < 1) {
         score = 1;
@@ -459,17 +705,10 @@ function render() {
             leaderboardButton.update();
         }
 
-    } else {
+    }
+    else {
 
         ball.update();
-
-        if (!usingKeyboard) {
-            if (touching) {
-                ball.jump();
-            } else {
-                // ball.dir = 0;
-            }
-        }
 
         for (let i = 0; i < platforms.length; i++) {
             platforms[i].update();
@@ -479,11 +718,15 @@ function render() {
         updateLives();
 
         camera.position.x = Smooth(camera.position.x, ball.mesh.position.x, 12);
-        camera.position.y = Smooth(camera.position.y, ball.mesh.position.y + 208 , 12);
+        camera.position.y = Smooth(camera.position.y, ball.mesh.position.y + 100  , 12); // was + 208
         camera.position.z = Smooth(camera.position.z, ball.mesh.position.z + ballSize*15, 10);
 
         cleanup();
         scoreText.text = "" + score;
+
+        //2 decimal places for timer
+
+        timerText.text = "" + (Math.round(globalSpeedIncreaseTimer * 100) / 100).toFixed(2);
     }
 
     if (renderer && inGame) {
@@ -513,22 +756,31 @@ function cleanup() {
         }
     }
 
+    for (let  i = 0; i < powerup.length; i++){
+        if(powerup[i].point){
+            scene.remove(powerup[i].mesh);
+            powerup.splice(i,1); 
+        }
+    }
+
 }
 
 function spawn(z){
 
      // this spawns 10 platforms
     if (platforms.length < platformCount) { 
-        platforms.push(new Platform(0, 0, z - ballSize*15 ));
+        platforms.push(new Platform(0, 0, z - ballSize*15, pwidth ));
 
         let inc = 5;
 
-          
         if(platforms.length  %  inc == 0){
             coin.push(new Coin(0, coinSize + 32, z - ballSize*15));
             } 
-    }
 
+        if(platforms.length  %  15 == 0){
+            powerup.push(new Powerup(0, powerupSize + 32, z - ballSize*15));
+            } 
+    }
    
 }
 
