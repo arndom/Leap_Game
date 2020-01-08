@@ -325,12 +325,12 @@ function loadUI() {
  //let soundButton, soccerButton, pokeButton, tennisButton, shipButton, bounceButton, earthButtl;
     
     
-    soccerButton = new SliderButton(1, -30);
-    pokeButton = new SliderButton(2, -70);
+    soccerButton = new SliderButton(1, -20);
+    pokeButton = new SliderButton(2, -50);
     tennisButton = new SliderButton(3, 15);
-    shipButton = new SliderButton(4, 55); 
-    bounceButton = new SliderButton(0, -110);
-    earthButton = new SliderButton(5, 100);
+    shipButton = new SliderButton(4, 45); 
+    bounceButton = new SliderButton(0, -82);
+    earthButton = new SliderButton(5, 75);
 
     bounceButton.img.onClick(function () {
         if (gameOver){
@@ -444,7 +444,7 @@ function loadUI() {
     instructionsText[2] = Koji.config.strings.instructions2;
     instructionsText[3] = Koji.config.strings.instructions3;
 
-    instructionsSize = 25;
+    instructionsSize = 22;
     for (let i = 0; i < instructionsText.length; i++) {
 
         instructions[i] = ui.createText(instructionsText[i], instructionsSize, font, instructionsColor);

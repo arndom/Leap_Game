@@ -116,7 +116,7 @@ class SoundButton {
 class SliderButton{
     constructor(type, xPosition){
         
-        let size = 64;
+        let size = 54;
 
         // this.sprite = Koji.config.soundOn;
         if(type ==0){
