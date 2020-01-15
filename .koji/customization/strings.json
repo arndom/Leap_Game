@@ -1,20 +1,19 @@
 {
   "strings": {
     "emailInputEnabled": false,
-    "fontFamily": "https://fonts.googleapis.com/css?family=Roboto Condensed",
+    "fontFamily": "Roboto Condensed",
     "title": "Leap",
     "instructions0": "Jump on the platforms and try not fall",
     "instructions1": "SPACEBAR = PC",
     "instructions2": "TAP = MOBILE",
     "instructions3": "SELECT PLAYER BELOW",
-    "lives": "1",
+    "lives": "5",
     "playButtonText": "START",
     "scoreGain": "4",
     "minWorldSpeed": "25",
     "maxWorldSpeed": "100",
     "amount": "2",
     "duration": "12"
-    
   },
   "@@editor": [
     {
@@ -32,74 +31,99 @@
         {
           "key": "title",
           "name": "Game Title",
-          "description": "Name of your game",
+          "description": "Name of the game",
           "type": "text"
         },
         {
           "key": "instructions0",
           "name": "Instructions0",
-          "description": "Instructions0",
+          "description": "About the Game",
           "type": "text"
         },
         {
           "key": "instructions1",
           "name": "Instructions 1",
-          "description": "Instructions Text 1",
+          "description": "Instructions for PC Players",
           "type": "text"
         },
         {
           "key": "instructions2",
           "name": "Instructions 2",
-          "description": "Instructions Text 2",
+          "description": "Instructions for Mobile Players",
           "type": "text"
         },
         {
           "key": "instructions3",
           "name": "Instructions 3",
-          "description": "Instructions Text 3",
+          "description": "Player Selection Instructions",
           "type": "text"
         },
         {
           "key": "playButtonText",
-          "name": "Play Button Text",
+          "name": "Text on the play button ",
           "description": "Text",
           "type": "text"
         },
         {
           "key": "lives",
           "name": "Starting Lives",
-          "description": "Starting Lives",
+          "description": "Number of lives the player has",
           "type": "text"
         },
         {
           "key": "scoreGain",
           "name": "Score Gain",
-          "description": "Base score gain for each collectible",
-          "type": "text"
+          "description": "Amount by which the player's score increases",
+          "type": "range",
+          "typeOptions": {
+            "min": 0,
+            "max": 20,
+            "step": 1
+          }
         },
         {
           "key": "minWorldSpeed",
           "name": "Min World Speed",
-          "description": "Minimum World Speed",
-          "type": "text"
+          "description": "Minimum speed at which the world moves",
+          "type": "range",
+          "typeOptions": {
+            "min": 15,
+            "max": 50,
+            "step": 5
+          }
         },
         {
           "key": "maxWorldSpeed",
           "name": "Max World Speed",
-          "description": "Maximum World Speed",
-          "type": "text"
+          "description": "Maximum speed at which the game world moves",
+          "type": "range",
+          "typeOptions": {
+            "min": 80,
+            "max": 200,
+            "step": 5
+          }
         },
         {
           "key": "duration",
           "name": "Duration of Speed increase",
-          "description": "Duration by which World Speed increases",
-          "type": "text"
+          "description": "After how many seconds would the game speed increase",
+          "type": "range",
+          "typeOptions": {
+            "min": 10,
+            "max": 60,
+            "step": 2
+          }
         },
         {
           "key": "amount",
           "name": "Amount of Speed increase",
-          "description": "Amount by which World Speed increases",
-          "type": "text"
+          "description": "Value by which the game speed increases after the Duration ",
+          "type": "range",
+          "typeOptions": {
+            "min": 0,
+            "max": 100,
+            "step": 2
+          }
         }
       ]
     }

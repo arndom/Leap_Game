@@ -2,6 +2,7 @@ import { h, Component } from 'preact';
 import GameContainer from './GameContainer';
 import Leaderboard from './Leaderboard';
 import SetScore from './SetScore';
+// import WebFont from 'webfontloader';
 
 export default class App extends Component {
 	state = {
@@ -13,8 +14,13 @@ export default class App extends Component {
 		window.setAppView = view => { this.setState({ view }); }
 		window.setScore = score => { this.setState({ score }); }
 
-  
+    // this.loadFont();
 	}
+
+  // loadFont = () => {
+  //   WebFont.load({ google: { families: [Koji.config.general.fontFamily] } });
+  //   document.body.style.fontFamily = Koji.config.general.fontFamily;
+  // };
 
 	render() {
         

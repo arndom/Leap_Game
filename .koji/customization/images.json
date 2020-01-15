@@ -57,24 +57,6 @@
           "description": "Platform texture. Ideal size: 128x128 or 256x256"
         },
         {
-          "key": "box",
-          "name": "Box",
-          "type": "image",
-          "description": "Box texture Ideal size: 128x128 or 256x256"
-        },
-        {
-          "key": "collectible",
-          "name": "Collectible",
-          "type": "image",
-          "description": "Collectible texture Ideal size: 128x128 or 256x256"
-        },
-        {
-          "key": "coin",
-          "name": "Coin",
-          "type": "image",
-          "description": "Coin texture Ideal size: 128x128 or 256x256"
-        },
-        {
           "key": "selector",
           "name": "Selector",
           "type": "image",

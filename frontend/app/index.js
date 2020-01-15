@@ -98,7 +98,7 @@ let modelsLoaded = 0;
 let limit = 5.1;
 let leftBound = -ballSize * (3.25 + limit);
 let rightBound = ballSize * (3.25 + limit);
-let font = Koji.config.strings.font;
+// let font = Koji.config.strings.font;
 let score = 0;
 let requestID; //Should be used later for cancelling animation frames
 let renderUI = true;
@@ -108,11 +108,15 @@ let touching = false;
 let usingKeyboard = false;
 let soundEnabled = true;
 
+let jumpC = 0;
+
 //Game settings
 
 let scoreGain = parseInt(Koji.config.strings.scoreGain);
 let startingLives = parseInt(Koji.config.strings.lives);
 let lives = startingLives;
+
+let num = 1;
 
 
 //Time stuff
@@ -146,8 +150,6 @@ function preload() {
         console.info('Progress: ' + (progress * 100) + '%');
     };
 
-    // load a sound and set it as the Audio object's buffer
-
     var audioLoader = new THREE.AudioLoader();
     audioLoader.load(Koji.config.sounds.backgroundMusic, function (buffer) {
         sndMusic.setBuffer(buffer);
@@ -164,23 +166,24 @@ function preload() {
         sndJump.setBuffer(buffer);
     });
 
-    loadModel(Koji.config.player.soccerball.mtl, Koji.config.player.soccerball.obj, modelPlayer1, ballSize*0.8);
-    loadModel(Koji.config.player.pokeball.mtl, Koji.config.player.pokeball.obj, modelPlayer2, ballSize * 1.2);
-    loadModel(Koji.config.player.earth.mtl, Koji.config.player.earth.obj, modelPlayer3, ballSize *2);
-    loadModel(Koji.config.player.tennisball.mtl, Koji.config.player.tennisball.obj, modelPlayer4, ballSize*1.15);
-    loadModel(Koji.config.player.ship.mtl, Koji.config.player.ship.obj, modelPlayer5, ballSize* 2);
+    loadModel(Koji.config.player.soccerball.mtl, Koji.config.player.soccerball.obj, modelPlayer1, ballSize*Koji.config.player.soccerballScale);
+    loadModel(Koji.config.player.pokeball.mtl, Koji.config.player.pokeball.obj, modelPlayer2, ballSize * Koji.config.player.pokeballScale);
+    loadModel(Koji.config.player.earth.mtl, Koji.config.player.earth.obj, modelPlayer3, ballSize * Koji.config.player.earthScale);
+    loadModel(Koji.config.player.tennisball.mtl, Koji.config.player.tennisball.obj, modelPlayer4, ballSize * Koji.config.player.tennisballScale);
+    loadModel(Koji.config.player.ship.mtl, Koji.config.player.ship.obj, modelPlayer5, ballSize*Koji.config.player.shipScale );
 
 
     //===Load font from google fonts link provided in game settings
-
+ 
     var link = document.createElement('link');
-    link.href = Koji.config.strings.fontFamily;
+    link.href = "https://fonts.googleapis.com/css?family=" + Koji.config.strings.fontFamily;
     link.rel = 'stylesheet';
     document.head.appendChild(link);
-    font = getFontFamily(Koji.config.strings.fontFamily);
+    font = getFontFamily("https://fonts.googleapis.com/css?family=" + Koji.config.strings.fontFamily);
     let newStr = font.replace("+", " ");
     font = newStr;
-    //===
+    
+    // WebFont.load({ google: { families: [Koji.config.strings.fontFamily] } });
 
     // Load, and start game when done
 
@@ -256,7 +259,7 @@ function onMouseDown(e) {
     if (ball) {
         ball.jump();
     }
-
+     jumpC ++;
     platformCount ++;
     
 }
@@ -492,6 +495,7 @@ function init() {
 
 
     score = 0;
+    jumpC = 0;
 
     globalSpeedIncreasePeriod = 10;
     globalSpeedIncreaseTimer = globalSpeedIncreasePeriod;
@@ -506,7 +510,7 @@ function init() {
 
     globalSpeed = globalSpeedMin;
 
-    ball = new Ball(0, ballSize + 16, 0);
+    ball = new Ball(0, ballSize + 16, 0, Koji.config.player.playersRoll, Koji.config.player.playersPitch, Koji.config.player.playersYaw);
 
 
 
@@ -540,6 +544,8 @@ function init() {
 
 }
 
+
+
 function initiateScene() {
 
     scene = new THREE.Scene();
@@ -571,6 +577,9 @@ function handleInputDown() {
             ball.jump();
         }
 
+        jumpC ++;
+
+        console .log(ball.jumpCount);
         platformCount ++;
     }
 
@@ -653,15 +662,23 @@ function updateLives() {
     }
 
 }
-
 function loseLife() {
-    lives--;
+    lives  = lives - 1;
+    // ball.mesh.position.z + 960;
+    // ball.mesh.positio. y = 100;
 
     if (lives <= 0) {
         lives = 0;
-
         endGame();
     }
+}
+
+function respawn(){
+
+    let g = platforms[jumpC].mesh.position.z; 
+    new Platform(0, 0, g, pwidth );
+    ball = new Ball(0, ballSize + 16, g, Koji.config.player.playersRoll, Koji.config.player.playersPitch, Koji.config.player.playersYaw);
+    
 }
 
 function endGame() {    
@@ -710,6 +727,7 @@ function render() {
 
         ball.update();
 
+
         for (let i = 0; i < platforms.length; i++) {
             platforms[i].update();
         }
@@ -741,8 +759,8 @@ function render() {
 };
 
 function cleanup() {
-    for (let i = 0; i < platforms.length; i++) {
-        if (platforms[i].removable) {
+    for (let i = 2; i < platforms.length; i++) {
+        if (platforms[i].removeable) {
             scene.remove(platforms[i].mesh);
             platforms.splice(i, 1);
 
@@ -762,7 +780,20 @@ function cleanup() {
             powerup.splice(i,1); 
         }
     }
+    
+    if(ball.death){
 
+        scene.remove(ball.model);
+        if(ball.playerChoice){
+          scene.remove(ball.model);
+        }
+
+    }
+
+    // if(ball.death){
+    //     scene.remove(ball.model)
+    //     scene.remove(ball.mesh);
+    // }
 }
 
 function spawn(z){

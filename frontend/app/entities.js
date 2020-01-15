@@ -43,6 +43,10 @@
 
         this.allowedgravity = true;
 
+        this.death = false;
+        this.jumpCount = 0;
+        // thi.jumpB  = 0;
+
         //To prevent hitting the same block multiple times
         this.invincibilityTimer = 0;
 
@@ -55,7 +59,11 @@
                 scene.add(this.model);
             }
         
+        if(this.death){
+            respawn();
+            // num += 2;
 
+        }
 
         let gravity = 1.981;
         this.invincibilityTimer -= clock.getDelta();
@@ -84,16 +92,19 @@
 
             }
 
-             if(this.mesh.position.y <= -200){
+             if(this.mesh.position.y <= -1500){
 
             
-                if (!platforms[i].destroyed && this.invincibilityTimer <= 0) {
+                if (!platforms[i].destroyed && this.invincibilityTimer <= 0 && !this.death) {
                     platforms[i].destroyed = true;
+
+                    this.death = true;
                     
                     loseLife();
 
                     this.invincibilityTimer = 0.5;
                 }
+
             
             }
 
