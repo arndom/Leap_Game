@@ -146,6 +146,8 @@ class SliderButton{
         this.img.x = xPosition;
         this.img.y = 80;
 
+        this.img.alpha =1;
+
         this.img.pivot.x = 0.5;
         this.img.pivot.y = 0.5;
 
@@ -172,6 +174,9 @@ class SliderButton{
     }
 
     update(){
+        if(!this.img.onClick){
+            this.img.alpha =1 ;
+        }
 
     }
 }

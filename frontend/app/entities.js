@@ -45,7 +45,6 @@
 
         this.death = false;
         this.jumpCount = 0;
-        // thi.jumpB  = 0;
 
         //To prevent hitting the same block multiple times
         this.invincibilityTimer = 0;
@@ -59,10 +58,8 @@
                 scene.add(this.model);
             }
         
-        if(this.death){
+         if(this.death){
             respawn();
-            // num += 2;
-
         }
 
         let gravity = 1.981;
@@ -78,6 +75,8 @@
                 platforms[i].moving = false;
  
             }
+
+
 
             //death cond.
             if(platforms[i].mesh.position.z == this.mesh.position.z){  
@@ -143,6 +142,26 @@
                 else{
                     pwidth = 7.5;
                 }
+                
+            }
+        }
+
+                // checkpoint for restarting
+        for( let i = 0; i < checkpoint.length; i++){
+            if(!checkpoint[i].point && this.collisionWith(checkpoint[i])){
+                checkpoint[i].point = true;
+                // // let j = i + 1;
+                // // let nPosx = checkpoint[j].mesh.position.x;
+                // // let nPosy = checkpoint[j].mesh.position.y;
+                // // let nPosz = checkpoint[j].mesh.position.z;
+                // if(this.death){
+                // let j = i + 1;
+                // let nPosx = checkpoint[j].mesh.position.x;
+                // let nPosy = checkpoint[j].mesh.position.y;
+                // let nPosz = checkpoint[j].mesh.position.z;
+                //     respawn(nPosz);
+                // }      
+
                 
             }
         }
@@ -263,6 +282,9 @@ class Platform {
                 }
             }
 
+
+        
+
             
 
     } 
@@ -311,7 +333,7 @@ class Powerup{
         this.mesh = new THREE.Mesh(geometry, material);
         this.mesh.position.x = x;
         this.mesh.position.y = y;
-        this.mesh.position.z = z;
+        this.mesh.position.z = z;   
 
         this.point = false;
 
@@ -326,3 +348,32 @@ class Powerup{
     }
 }
 
+
+// uses the same texture as powerup 
+class Checkpoint{
+    constructor(x, y, z) {
+        var geometry = new THREE.SphereGeometry(powerupSize, 32, 32);
+        var material = new THREE.MeshPhongMaterial({ map: texturePowerup });
+
+        material.shininess = 80;
+        material.metalness = 1;
+        material.transparent = true;
+        material.opacity = 0;
+
+        this.mesh = new THREE.Mesh(geometry, material);
+        this.mesh.position.x = x;
+        this.mesh.position.y = y;
+        this.mesh.position.z = z;
+
+        this.point = false;
+
+       
+        this.mesh.geometry.computeBoundingSphere();
+        
+        scene.add(this.mesh);
+
+    }
+    update(){
+
+    }
+}

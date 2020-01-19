@@ -26,6 +26,7 @@ let ball;
 let platforms = [];
 let coin = []; 
 let powerup = [];
+let checkpoint = [];
 
 //Textures
 let textureBall;
@@ -57,7 +58,7 @@ let lifeIcons = [];
 
 let clockIcon;
 
-let selectorIcon;
+// let selectorIcon;
 
 let playButton;
 let soundButton, soccerButton, pokeButton, tennisButton, shipButton, bounceButton, earthButton;
@@ -84,6 +85,7 @@ let globalSpeedIncrease = parseInt(Koji.config.strings.amount); //2
 let ballSize = 64;
 let coinSize = 16;
 let powerupSize = 16;
+let checkpointSize = 16;
 
 let pwidth = 7.5 ;
 let pdepth = 5;
@@ -103,7 +105,7 @@ let score = 0;
 let requestID; //Should be used later for cancelling animation frames
 let renderUI = true;
 let inGame = true;
-let platformCount = 10;
+let platformCount = 1000;
 let touching = false;
 let usingKeyboard = false;
 let soundEnabled = true;
@@ -259,7 +261,7 @@ function onMouseDown(e) {
     if (ball) {
         ball.jump();
     }
-     jumpC ++;
+    //  jumpC ++;
     platformCount ++;
     
 }
@@ -306,18 +308,18 @@ function loadUI() {
 
     clockIcon.visible = false;
 
-    let selectorSize = 35;
-    selectorIcon = ui.createSprite(Koji.config.images.selector);
+    // let selectorSize = 35;
+    // selectorIcon = ui.createSprite(Koji.config.images.selector);
 
-    selectorIcon.width = selectorSize;
-    selectorIcon.height = selectorSize;
+    // selectorIcon.width = selectorSize;
+    // selectorIcon.height = selectorSize;
 
-    selectorIcon.anchor.x = ThreeUI.anchors.center;
-    selectorIcon.anchor.y = ThreeUI.anchors.center;
+    // selectorIcon.anchor.x = ThreeUI.anchors.center;
+    // selectorIcon.anchor.y = ThreeUI.anchors.center;
 
-    selectorIcon.y = 210;
+    // selectorIcon.y = 210;
     
-    selectorIcon.visible = false;
+    // selectorIcon.visible = false;
 
     playButton = new Button(Koji.config.strings.playButtonText, 0);
     
@@ -339,8 +341,14 @@ function loadUI() {
         if (gameOver){
             playerChoice = true; 
             // art = Koji.config.images.bounce;
-            selectorIcon.x = -220; //  bounce
-            selectorIcon.visible = true;
+            bounceButton.img.alpha = 0.6;
+            soccerButton.img.alpha = 1;
+            pokeButton.img.alpha = 1;
+            tennisButton.img.alpha = 1;
+            shipButton.img.alpha = 1;
+            earthButton.img.alpha = 1;
+            // selectorIcon.x = -220; //  bounce
+            // selectorIcon.visible = true;
         }
           
     });
@@ -350,8 +358,14 @@ function loadUI() {
             playerChoice = false; 
             modelName = "soccerball";
             // art = Koji.config.images.soccer;
-            selectorIcon.x = -60; // soccerball
-            selectorIcon.visible = true;
+            bounceButton.img.alpha = 1;
+            soccerButton.img.alpha = 0.6;
+            pokeButton.img.alpha = 1;
+            tennisButton.img.alpha = 1;
+            shipButton.img.alpha = 1;
+            earthButton.img.alpha = 1;
+            // selectorIcon.x = -60; // soccerball
+            // selectorIcon.visible = true;
         }
     });
 
@@ -359,9 +373,15 @@ function loadUI() {
         if (gameOver){
             playerChoice = false;
             modelName = "pokeball";
+            bounceButton.img.alpha = 1;
+            soccerButton.img.alpha = 1;
+            pokeButton.img.alpha = 0.6;
+            tennisButton.img.alpha = 1;
+            shipButton.img.alpha = 1;
+            earthButton.img.alpha = 1;
             // art =  Koji.config.images.poke;
-            selectorIcon.x = -140; // poke
-            selectorIcon.visible = true;
+            // selectorIcon.x = -140; // poke
+            // selectorIcon.visible = true;
         }
           
     });
@@ -370,9 +390,15 @@ function loadUI() {
         if (gameOver){
             playerChoice = false;
             modelName = "tennisball"; 
+            bounceButton.img.alpha = 1;
+            soccerButton.img.alpha = 1;
+            pokeButton.img.alpha = 1;
+            tennisButton.img.alpha = 0.6;
+            shipButton.img.alpha = 1;
+            earthButton.img.alpha = 1;
             // art = Koji.config.images.tennis;
-            selectorIcon.x = 30; // beach ball
-            selectorIcon.visible = true;
+            // selectorIcon.x = 30; // beach ball
+            // selectorIcon.visible = true;
 
         }
 
@@ -382,9 +408,15 @@ function loadUI() {
         if (gameOver){
             playerChoice = false;
             modelName = "ship"; 
+            bounceButton.img.alpha = 1;
+            soccerButton.img.alpha = 1;
+            pokeButton.img.alpha = 1;
+            tennisButton.img.alpha = 1;
+            shipButton.img.alpha = 0.6;
+            earthButton.img.alpha = 1;
             // art= Koji.config.images.ship;
-            selectorIcon.x = 110; // ship
-            selectorIcon.visible = true;
+            // selectorIcon.x = 110; // ship
+            // selectorIcon.visible = true;
 
         }
 
@@ -394,9 +426,15 @@ function loadUI() {
         if (gameOver){
             playerChoice = false;
             modelName = "earth"; 
+            bounceButton.img.alpha = 1;
+            soccerButton.img.alpha = 1;
+            pokeButton.img.alpha = 1;
+            tennisButton.img.alpha = 1;
+            shipButton.img.alpha = 1;
+            earthButton.img.alpha = 0.6;
             // art=Koji.config.images.earth;
-            selectorIcon.x = 200; // earth 
-            selectorIcon.visible = true;
+            // selectorIcon.x = 200; // earth 
+            // selectorIcon.visible = true;
             
         }
     });
@@ -492,6 +530,7 @@ function init() {
     platforms = [];
     coin  = [];
     powerup =[];
+    checkpoint = [];
 
 
     score = 0;
@@ -525,7 +564,7 @@ function init() {
     earthButton.rectangle.visible = false;
     pokeButton.rectangle.visible = false;
 
-    selectorIcon.visible = false;
+    // selectorIcon.visible = false;
 
     leaderboardButton.rectangle.visible = false;
     title.visible = false;
@@ -577,9 +616,10 @@ function handleInputDown() {
             ball.jump();
         }
 
-        jumpC ++;
+        // jumpC ++;
 
-        console .log(ball.jumpCount);
+        // console .log(ball.jumpCount);
+
         platformCount ++;
     }
 
@@ -675,10 +715,14 @@ function loseLife() {
 
 function respawn(){
 
-    let g = platforms[jumpC].mesh.position.z; 
-    new Platform(0, 0, g, pwidth );
-    ball = new Ball(0, ballSize + 16, g, Koji.config.player.playersRoll, Koji.config.player.playersPitch, Koji.config.player.playersYaw);
+    let point = checkpoint[0].mesh.position.z;
+    let forward  = jumpC + 1;
     
+    platforms[forward].moving = false;
+    platforms[forward].mesh.position.z = point;
+    platforms[forward].mesh.position.x =0;
+
+    ball = new Ball(0, ballSize + 16, platforms[forward].mesh.position.z, Koji.config.player.playersRoll, Koji.config.player.playersPitch, Koji.config.player.playersYaw);
 }
 
 function endGame() {    
@@ -715,6 +759,8 @@ function render() {
     requestID = requestAnimationFrame(render);
 
     if (gameOver) {
+    // jumpC = 0;
+
         //Draw Main Menu
         if (inGame) {
             playButton.update();
@@ -734,6 +780,7 @@ function render() {
 
         managePlatforms();
         updateLives();
+        
 
         camera.position.x = Smooth(camera.position.x, ball.mesh.position.x, 12);
         camera.position.y = Smooth(camera.position.y, ball.mesh.position.y + 100  , 12); // was + 208
@@ -764,7 +811,7 @@ function cleanup() {
             scene.remove(platforms[i].mesh);
             platforms.splice(i, 1);
 
-        }
+        }  
     }
 
     for (let  i = 0; i < coin.length; i++){
@@ -780,6 +827,15 @@ function cleanup() {
             powerup.splice(i,1); 
         }
     }
+
+    for (let  i = 0; i < checkpoint.length; i++){
+        if(checkpoint[i].point){
+            scene.remove(checkpoint[i].mesh);
+            checkpoint.splice(i,1); 
+            jumpC ++;
+        }
+    }
+    
     
     if(ball.death){
 
@@ -801,6 +857,7 @@ function spawn(z){
      // this spawns 10 platforms
     if (platforms.length < platformCount) { 
         platforms.push(new Platform(0, 0, z - ballSize*15, pwidth ));
+        checkpoint.push(new Checkpoint(0, checkpointSize +32, z - ballSize*15));
 
         let inc = 5;
 

@@ -7,7 +7,7 @@
     "instructions1": "SPACEBAR = PC",
     "instructions2": "TAP = MOBILE",
     "instructions3": "SELECT PLAYER BELOW",
-    "lives": "5",
+    "lives": 5,
     "playButtonText": "START",
     "scoreGain": "4",
     "minWorldSpeed": "25",
@@ -68,7 +68,12 @@
           "key": "lives",
           "name": "Starting Lives",
           "description": "Number of lives the player has",
-          "type": "text"
+          "type": "range",
+          "typeOptions": {
+            "min": 0,
+            "max": 5,
+            "step": 1
+          }
         },
         {
           "key": "scoreGain",
