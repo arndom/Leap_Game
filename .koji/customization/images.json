@@ -17,7 +17,8 @@
     "earth": "https://images.koji-cdn.com/495596ec-3a8e-4688-8586-281536daada4/zej8b-clipartearthsmallicon256x2565881.png",
     "ship": "https://images.koji-cdn.com/495596ec-3a8e-4688-8586-281536daada4/k0emz-clipartufo256x256ee8d.png",
     "bounce": "https://images.koji-cdn.com/495596ec-3a8e-4688-8586-281536daada4/yuyvs-clipartball256x2564511.png",
-    "selector": "https://images.koji-cdn.com/495596ec-3a8e-4688-8586-281536daada4/ylmhg-arrowright01256.png"
+    "selector": "https://images.koji-cdn.com/495596ec-3a8e-4688-8586-281536daada4/ylmhg-arrowright01256.png",
+    "bkg": "https://images.koji-cdn.com/495596ec-3a8e-4688-8586-281536daada4/enido-164546.jpg"
   },
   "@@editor": [
     {
@@ -103,6 +104,12 @@
           "name": "Bounce",
           "type": "image",
           "description": "Bounce Ball texture Ideal size: 128x128 or 256x256"
+        },
+        {
+          "key": "bkg",
+          "name": "Background Image",
+          "type": "image",
+          "description": "Background image HD images are ideally preferred"
         }
       ]
     }

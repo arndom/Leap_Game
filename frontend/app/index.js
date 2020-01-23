@@ -24,7 +24,7 @@ ambientLight.intensity = 0.5;
 //Game Objects
 let ball;
 let platforms = [];
-let coin = []; 
+let coin = [];  
 let powerup = [];
 let checkpoint = [];
 
@@ -33,6 +33,7 @@ let textureBall;
 let texturePlatform;
 let textureCoin;
 let texturePowerup;
+let bkgImage;
 let art ;
 
 // ball = true
@@ -120,6 +121,7 @@ let lives = startingLives;
 
 let num = 1;
 
+let bkgImg;
 
 //Time stuff
 
@@ -140,11 +142,6 @@ function preload() {
     AssetLoader.add.image(Koji.config.images.earth);
     AssetLoader.add.image(Koji.config.images.ship);
     AssetLoader.add.image(Koji.config.images.bounce);
-
-
-
-
-
 
     // Set a progress listener, can be used to create progress bars
 
@@ -216,6 +213,8 @@ function setup() {
     textureCoin = new THREE.TextureLoader().load(Koji.config.images.coin);
     texturePlatform = new THREE.TextureLoader().load(Koji.config.images.platform);
     texturePowerup = new THREE.TextureLoader().load(Koji.config.images.powerup);
+    bkgImage = new THREE.TextureLoader().load(Koji.config.images.bkg);
+
 
 
     texturePlatform.wrapS = THREE.RepeatWrapping;
@@ -308,28 +307,12 @@ function loadUI() {
 
     clockIcon.visible = false;
 
-    // let selectorSize = 35;
-    // selectorIcon = ui.createSprite(Koji.config.images.selector);
-
-    // selectorIcon.width = selectorSize;
-    // selectorIcon.height = selectorSize;
-
-    // selectorIcon.anchor.x = ThreeUI.anchors.center;
-    // selectorIcon.anchor.y = ThreeUI.anchors.center;
-
-    // selectorIcon.y = 210;
-    
-    // selectorIcon.visible = false;
-
     playButton = new Button(Koji.config.strings.playButtonText, 0);
     
     soundButton = new SoundButton();
     
     leaderboardButton = new Button("LEADERBOARD", 1);
-    
- //let soundButton, soccerButton, pokeButton, tennisButton, shipButton, bounceButton, earthButtl;
-    
-    
+
     soccerButton = new SliderButton(1, -20);
     pokeButton = new SliderButton(2, -50);
     tennisButton = new SliderButton(3, 15);
@@ -347,8 +330,6 @@ function loadUI() {
             tennisButton.img.alpha = 1;
             shipButton.img.alpha = 1;
             earthButton.img.alpha = 1;
-            // selectorIcon.x = -220; //  bounce
-            // selectorIcon.visible = true;
         }
           
     });
@@ -442,7 +423,7 @@ function loadUI() {
     playButton.rectangle.onClick(function () {
         if (gameOver && totalModels == modelsLoaded) {
         // if (gameOver ) {
-
+            scene.remove(bkg.mesh);
             init();
         }
 
@@ -460,10 +441,14 @@ function loadUI() {
 
     })
 
+    bkg = new BkgImage(0,window.innerHeight,0);
+        
     //Title
     let titleSize = 128;
     title = ui.createText(Koji.config.strings.title, titleSize, font, Koji.config.colors.titleColor);
-    title.y = window.innerHeight * 0.1 + titleSize * 0.5;
+    title.y = 100;
+    //  window.innerHeight * 0.15 
+    // + titleSize * 0.5;
 
     title.textAlign = 'center';
     title.anchor.x = ThreeUI.anchors.center;
@@ -473,7 +458,9 @@ function loadUI() {
 
         titleSize *= 0.99;
         title.size = titleSize;
-        title.y = window.innerHeight * 0.1 + titleSize * 0.5;
+        title.y = 100;
+        // window.innerHeight * 0.15 
+        // + titleSize * 0.5;
 
     }
 
@@ -549,9 +536,8 @@ function init() {
 
     globalSpeed = globalSpeedMin;
 
+
     ball = new Ball(0, ballSize + 16, 0, Koji.config.player.playersRoll, Koji.config.player.playersPitch, Koji.config.player.playersYaw);
-
-
 
     platforms.push(new Platform(0, 0, 0, pwidth));
 
@@ -586,12 +572,14 @@ function init() {
 
 
 function initiateScene() {
+    
+    
+
 
     scene = new THREE.Scene();
     let fogColor = new THREE.Color(Koji.config.colors.fogColor);
     let backgroundColor = new THREE.Color(Koji.config.colors.backgroundColor);
-
-
+  
     scene.background = backgroundColor;
     scene.fog = new THREE.Fog(fogColor, 50, 10000);
 
@@ -761,12 +749,14 @@ function render() {
     if (gameOver) {
     // jumpC = 0;
 
-        //Draw Main Menu
+        //Draw Main Menuk
         if (inGame) {
             playButton.update();
             soundButton.update();
             leaderboardButton.update();
         }
+        
+        
 
     }
     else {

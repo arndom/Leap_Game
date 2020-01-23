@@ -1,10 +1,10 @@
 {
   "colors": {
-    "backgroundColor": "#87CEEB",
+    "backgroundColor": "#87ceeb",
     "boxColor": "#1cd61c",
-    "fogColor": "#87CEEB",
+    "fogColor": "#87ceeb",
     "buttonTextColor": "#373F51",
-    "buttonColor": "#ECEBF3",
+    "buttonColor": "#ecebf3",
     "titleColor": "#ECEBF3",
     "instructionsColor": "#ECEBF3",
     "scoreColor": "#ECEBF3"

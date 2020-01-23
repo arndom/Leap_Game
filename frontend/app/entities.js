@@ -377,3 +377,16 @@ class Checkpoint{
 
     }
 }
+
+class BkgImage{
+    constructor (x, y, z){
+        var geometry =new THREE.PlaneGeometry(window.innerWidth*2.5, window.innerHeight*4, 32); // width, height, widthSegments
+        var material = new THREE.MeshPhongMaterial({ map:bkgImage }); 
+
+        this.mesh = new THREE.Mesh(geometry, material);
+        this.mesh.position.x = x;
+        this.mesh.position.y = y;
+        this.mesh.position.z = z;
+        scene.add(this.mesh);
+    }
+}
